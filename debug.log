@@ -1,0 +1,18 @@
+[0629/082438.167:ERROR:process_reader_win.cc(151)] SuspendThread: Zugriff verweigert (0x5)
+[0629/082438.171:ERROR:process_reader_win.cc(151)] SuspendThread: Zugriff verweigert (0x5)
+[0629/082438.171:ERROR:process_reader_win.cc(151)] SuspendThread: Zugriff verweigert (0x5)
+[0629/082438.171:ERROR:process_reader_win.cc(151)] SuspendThread: Zugriff verweigert (0x5)
+[0629/082438.171:ERROR:process_reader_win.cc(151)] SuspendThread: Zugriff verweigert (0x5)
+[0629/082438.171:ERROR:process_reader_win.cc(151)] SuspendThread: Zugriff verweigert (0x5)
+[0629/082438.171:ERROR:process_reader_win.cc(151)] SuspendThread: Zugriff verweigert (0x5)
+[0629/082438.171:ERROR:process_reader_win.cc(151)] SuspendThread: Zugriff verweigert (0x5)
+[0629/082438.171:ERROR:process_reader_win.cc(123)] NtOpenThread: {Zugriff verweigert} Ein Prozess hat einen Zugriff auf ein Objekt angefordert, aber ihm wurden nicht die Rechte für den Zugriff erteilt. (0xc0000022)
+[0629/082438.171:ERROR:exception_snapshot_win.cc(98)] thread ID 14240 not found in process
+[0629/082438.187:ERROR:process_reader_win.cc(123)] NtOpenThread: {Zugriff verweigert} Ein Prozess hat einen Zugriff auf ein Objekt angefordert, aber ihm wurden nicht die Rechte für den Zugriff erteilt. (0xc0000022)
+[0629/082438.187:ERROR:exception_snapshot_win.cc(98)] thread ID 13104 not found in process
+[0629/082438.187:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: Es wurde versucht, auf einen Prozess zuzugreifen, der gerade beendet wurde. (0xc000010a)
+[0629/154646.238:ERROR:prune_crash_reports.cc(35)] PruneCrashReportDatabase: Failed to get pending reports
+[0629/161753.576:ERROR:process_reader_win.cc(123)] NtOpenThread: {Zugriff verweigert} Ein Prozess hat einen Zugriff auf ein Objekt angefordert, aber ihm wurden nicht die Rechte für den Zugriff erteilt. (0xc0000022)
+[0629/161753.581:ERROR:exception_snapshot_win.cc(98)] thread ID 10752 not found in process
+[0629/161753.655:ERROR:process_reader_win.cc(123)] NtOpenThread: {Zugriff verweigert} Ein Prozess hat einen Zugriff auf ein Objekt angefordert, aber ihm wurden nicht die Rechte für den Zugriff erteilt. (0xc0000022)
+[0629/161753.656:ERROR:exception_snapshot_win.cc(98)] thread ID 10868 not found in process

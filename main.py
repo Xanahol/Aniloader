@@ -1,4 +1,4 @@
 import crawler
-import torrenthandler
+#import torrenthandler
 
 crawler.crawl()
