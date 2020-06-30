@@ -9,7 +9,7 @@ import userhandler
 
 hs_driver = webdriver.Chrome()
 torrent_driver = webdriver.Chrome()
-ip_4 = "172.16.17.24"
+ip_4 = "192.168.1.135"
 torrent_port = "8080"
 username = "Xana"
 password = "Xanaholovous01"
@@ -28,16 +28,20 @@ def go_to_anime(name):
 
 
 def show_all_episodes():
-    while True:
-        try:
-            print("debug loop")
-            WebDriverWait(hs_driver, 5).until(
-                EC.presence_of_element_located((By.XPATH, "//a[@class='more-button']")))
-            element = hs_driver.find_element_by_xpath(
-                "//a[@class='more-button']")
-            ActionChains(hs_driver).click(element).perform()
-        except:
-            break
+    #i = 0
+    clickable = WebDriverWait(hs_driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//*[@class='more-button']")))
+    el = hs_driver.find_element_by_xpath("//*[@class='more-button']")
+    elattr = el.get_attribute('href')
+    print(elattr)
+    tryme = "#" in elattr
+
+    if tryme == True:
+        hs_driver.implicitly_wait(3)
+        ActionChains(hs_driver).click(clickable).perform()
+
+    else:
+        pass
 
 
 def get_magnet_links():
@@ -63,9 +67,9 @@ def log_in():
         EC.presence_of_element_located((By.XPATH, "//*[@id='password']")))
 
     element_username = torrent_driver.find_element_by_id("username")
-    
+
     element_password = torrent_driver.find_element_by_id("password")
-    
+
     element_username.send_keys(username)
     element_password.send_keys(password)
 
@@ -73,12 +77,14 @@ def log_in():
         EC.presence_of_element_located((By.XPATH, "//*[@id='login']")))
     ActionChains(torrent_driver).click(submit).perform()
 
+
 def insert_links(link_list):
     download = WebDriverWait(torrent_driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//*[@id='downloadButton']")))
     ActionChains(torrent_driver).click(download).perform()
 
-    torrent_driver.switch_to_frame(torrent_driver.find_element_by_id("downloadPage_iframe"))
+    torrent_driver.switch_to_frame(
+        torrent_driver.find_element_by_id("downloadPage_iframe"))
 
     WebDriverWait(torrent_driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//*[@id='urls']")))
@@ -91,13 +97,12 @@ def insert_links(link_list):
     ActionChains(torrent_driver).click(submit).perform()
 
 
-
 def crawl():
     connect_to_horriblesubs()
+    open_qbittorrent()
+    log_in()
     anime = userhandler.ask_for_anime()
     go_to_anime(anime)
     show_all_episodes()
     magnet_links = get_magnet_links()
-    open_qbittorrent()
-    log_in()
     insert_links(magnet_links)
