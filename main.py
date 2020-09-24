@@ -1,4 +1,4 @@
-import crawler
+import sites.horriblesubs as horriblesubs
 #import torrenthandler
 
-crawler.crawl()
+horriblesubs.crawl()
