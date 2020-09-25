@@ -1,3 +1,7 @@
+import getopt
+import sys
+
+
 def ask_for_anime():
     return input("Which anime would you like to download?\n")
 
@@ -12,3 +16,17 @@ def ask_for_username():
 
 def ask_for_password():
     return input("Password:")
+
+
+def get_parameters():
+    full_cmd_arguments = sys.argv
+    argument_list = full_cmd_arguments[1:]
+    short_options = "hms:"
+    long_options = ["help", "mode", "site="]
+    try:
+        arguments, values = getopt.getopt(
+            argument_list, short_options, long_options)
+        return arguments
+    except getopt.error as err:
+        print(str(err))
+        sys.exit(2)

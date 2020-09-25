@@ -15,7 +15,6 @@ import logger
 import config
 
 hs_driver = webdriver.Chrome(ChromeDriverManager().install())
-torrent_driver = webdriver.Chrome(ChromeDriverManager().install())
 
 
 def connect_to_horriblesubs():
@@ -70,24 +69,3 @@ def get_magnet_links():
         magnet_links.append(link)
         a += 1
     return magnet_links
-
-
-def crawl():
-    connect_to_horriblesubs()
-    thetvdb.connect_to_thetvdb()
-
-    torrenthandler.open_qbittorrent()
-    torrenthandler.log_in()
-
-    anime = userhandler.ask_for_anime()
-    thetvdb.check_for_anime_in_db(anime)
-    go_to_anime(anime)
-    show_all_episodes()
-    magnet_links = get_magnet_links()
-
-    torrenthandler.open_add_link_interface()
-    download_path = userhandler.ask_for_downloadpath()
-    threading.Thread(target=torrenthandler.insert_links(magnet_links)).start()
-    threading.Thread(
-        target=torrenthandler.insert_downloadpath(download_path)).start()
-    torrenthandler.submit_links()

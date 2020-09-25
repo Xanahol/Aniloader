@@ -64,7 +64,7 @@ def check_for_anime_in_db(anime):
 
     anime_redundance = filehandler.check_if_files_exist(anime_db_name)
 
-    if anime_redundance == True:
+    if anime_redundance:
         logger.info(
             "It seems you already have a library named after the Anime!")
     else:
