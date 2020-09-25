@@ -47,4 +47,12 @@ def update_seasonal():
 
     torrenthandler.open_qbittorrent()
     torrenthandler.log_in()
-    pass
+
+    anime_list = horriblesubs.get_every_seasonal_anime()
+    for anime in anime_list:
+        horriblesubs.go_to_anime(anime.title)
+        episodes_available = len(horriblesubs.get_magnet_links())
+        if filehandler.check_if_anime_up_to_date(anime):
+            pass
+
+    

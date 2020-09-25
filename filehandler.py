@@ -17,3 +17,8 @@ def check_if_files_exist(anime):
         return True
     else:
         return False
+
+#TODO
+#Give back the amount of files in the animes directory
+def check_if_anime_up_to_date(anime):
+    return True

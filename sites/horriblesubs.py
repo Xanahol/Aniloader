@@ -34,9 +34,10 @@ def go_to_anime(name):
     link = element.get_attribute("href")
     hs_driver.get(link)
 
-
-def get_newest_anime():
-    return None
+#TODO
+#return a list of all seasonal anime from the class Anime
+def get_every_seasonal_anime():
+    return []
 
 
 def show_all_episodes():
