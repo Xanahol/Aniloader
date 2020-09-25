@@ -20,10 +20,10 @@ for current_argument, current_value in arguments:
 
     elif current_argument in ("-m", "--mode"):
         switcher = {
-            'getAnime': crawler.crawl(),
+            'getAnime': crawler.simple_download(),
+            'updateSeasonal': crawler.update_seasonal(),
         }
         switcher.get(current_value, 'getAnime')
-        crawler.crawl()
 
     elif current_argument in ("-s", "--site"):
         # TODO

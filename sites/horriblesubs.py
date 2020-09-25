@@ -17,12 +17,17 @@ import config
 hs_driver = webdriver.Chrome(ChromeDriverManager().install())
 
 
-def connect_to_horriblesubs():
+def open_overview_page():
     logger.info("Connecting to HorribleSubs")
     hs_driver.get('https://horriblesubs.info/shows/')
     WebDriverWait(hs_driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//div[@class='ind-show']/a")))
 
+def open_seasonal_page():
+    logger.info("Connecting to HorribleSubs")
+    hs_driver.get('https://horriblesubs.info/current-season/')
+    WebDriverWait(hs_driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//div[@class='ind-show']/a")))
 
 def go_to_anime(name):
     element = hs_driver.find_element_by_xpath("//a[@title='{}']".format(name))

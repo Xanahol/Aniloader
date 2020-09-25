@@ -5,6 +5,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
+import sites.the_tvdb as thetvdb
+import sites.torrenthandler as torrenthandler
+import sites.horriblesubs as horriblesubs
 import socket
 import userhandler
 import threading
@@ -13,14 +16,11 @@ import logger
 import config
 
 
-def crawl():
-    import sites.the_tvdb as thetvdb
-    import sites.torrenthandler as torrenthandler
-    import sites.horriblesubs as horriblesubs
+def simple_download():
 
     logger.info("Setup completed")
 
-    horriblesubs.connect_to_horriblesubs()
+    horriblesubs.open_overview_page()
     thetvdb.connect_to_thetvdb()
 
     torrenthandler.open_qbittorrent()
@@ -37,3 +37,14 @@ def crawl():
     torrenthandler.insert_links(magnet_links)
     torrenthandler.insert_downloadpath(download_path)
     torrenthandler.submit_links()
+
+
+# TODO
+# Download all seasonal anime episodes that have not been added yet
+def update_seasonal():
+    horriblesubs.open_seasonal_page()
+    thetvdb.connect_to_thetvdb()
+
+    torrenthandler.open_qbittorrent()
+    torrenthandler.log_in()
+    pass
