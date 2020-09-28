@@ -1,5 +1,5 @@
-ip_4 = "192.168.1.135"
+ip_4 = "192.168.99.1"
 torrent_port = "8080"
 
-directories = ['G', 'J']
-default_directory = "J"
+directories = ['C']
+default_directory = r"C:/Users/noelb/Downloads/Plex/Anime"

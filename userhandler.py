@@ -21,8 +21,8 @@ def ask_for_password():
 def get_parameters():
     full_cmd_arguments = sys.argv
     argument_list = full_cmd_arguments[1:]
-    short_options = "hms:"
-    long_options = ["help", "mode", "site="]
+    short_options = "hm:s:"
+    long_options = ["help", "mode=", "site="]
     try:
         arguments, values = getopt.getopt(
             argument_list, short_options, long_options)

@@ -88,8 +88,6 @@ def insert_downloadpath(path):
         "//*[@id='savepath']")
     element_savepath.clear()
     element_savepath.send_keys(path)
-
-def download_to_anime_path(path):
     
 
 

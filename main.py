@@ -20,11 +20,11 @@ for current_argument, current_value in arguments:
         print(tabulate(helptable))
 
     elif current_argument in ("-m", "--mode"):
-        switcher = {
-            'getAnime': crawler.simple_download(),
-            'updateSeasonal': crawler.update_seasonal(),
-        }
-        switcher.get(current_value, 'getAnime')
+        print("I SEE THE LIGHT " + current_value + current_argument)
+        if current_value == 'getAnime': 
+            crawler.simple_download()
+        elif current_value == 'updateSeasonal': 
+            crawler.update_seasonal()
 
     elif current_argument in ("-s", "--site"):
         # TODO

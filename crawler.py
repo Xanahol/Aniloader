@@ -41,7 +41,6 @@ def simple_download():
 # Download all seasonal anime episodes that have not been added yet
 def update_seasonal():
     horriblesubs.open_seasonal_page()
-    thetvdb.connect_to_thetvdb()
 
     torrenthandler.open_qbittorrent()
     torrenthandler.log_in()
@@ -56,10 +55,11 @@ def update_seasonal():
             anime.episodes = links_to_download
             torrenthandler.open_add_link_interface()
             torrenthandler.insert_links(anime.episodes)
-            download_path = config.default_directory + ":\Plex\Anime\\" + anime.name
+            download_path = config.default_directory + ':\Plex\Anime\{}'.format(anime.title)
             torrenthandler.insert_downloadpath(download_path)
             torrenthandler.submit_links()
-            
+            horriblesubs.leave_anime()
+        horriblesubs.leave_anime()
 
 
             
