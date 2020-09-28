@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 import sites.the_tvdb as thetvdb
 import sites.torrenthandler as torrenthandler
+from classes import Anime
 import socket
 import userhandler
 import threading
@@ -23,20 +24,34 @@ def open_overview_page():
     WebDriverWait(hs_driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//div[@class='ind-show']/a")))
 
+
 def open_seasonal_page():
     logger.info("Connecting to HorribleSubs")
     hs_driver.get('https://horriblesubs.info/current-season/')
     WebDriverWait(hs_driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//div[@class='ind-show']/a")))
 
+
 def go_to_anime(name):
     element = hs_driver.find_element_by_xpath("//a[@title='{}']".format(name))
     link = element.get_attribute("href")
     hs_driver.get(link)
 
-#TODO
-#return a list of all seasonal anime from the class Anime
+# TODO
+# return a list of all seasonal anime from the class Anime
+
+
 def get_every_seasonal_anime():
+    seasonal_anime_list = []
+    elements = hs_driver.find_elements_by_xpath("//div[@class='ind-show']/a")
+    for element in elements:
+        anime = Anime()
+        anime.title = element.get_attribute("title")
+        go_to_anime(anime.title)
+        anime.url = hs_driver.current_url
+        show_all_episodes()
+        
+
     return []
 
 
