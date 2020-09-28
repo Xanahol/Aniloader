@@ -89,6 +89,9 @@ def insert_downloadpath(path):
     element_savepath.clear()
     element_savepath.send_keys(path)
 
+def download_to_anime_path(path):
+    
+
 
 def submit_links():
     submit = WebDriverWait(torrent_driver, 10).until(

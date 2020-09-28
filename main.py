@@ -13,6 +13,7 @@ for current_argument, current_value in arguments:
             ["-h", "--help", "Shows all parameter options"],
             ["-m", "--mode", 'Select a mode to run the download'],
             ["", "getAnime", 'Download a specific anime'],
+            ["", "updateSeasonal", 'Update to the seasonal progress'],
             [],
             ["-s", "--site", "Select a site on which you want to download"]
         ]

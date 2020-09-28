@@ -18,8 +18,6 @@ import config
 
 def simple_download():
 
-    logger.info("Setup completed")
-
     horriblesubs.open_overview_page()
     thetvdb.connect_to_thetvdb()
 
@@ -51,8 +49,19 @@ def update_seasonal():
     anime_list = horriblesubs.get_every_seasonal_anime()
     for anime in anime_list:
         horriblesubs.go_to_anime(anime.title)
-        episodes_available = len(horriblesubs.get_magnet_links())
-        if filehandler.check_if_anime_up_to_date(anime):
-            pass
+        episodes_available = len(anime.episodes)
+        episode_difference = filehandler.check_if_anime_up_to_date(anime.title, episodes_available)
+        if episode_difference is not None:
+            links_to_download = anime.episodes[-int(episode_difference):]
+            anime.episodes = links_to_download
+            torrenthandler.open_add_link_interface()
+            torrenthandler.insert_links(anime.episodes)
+            download_path = config.default_directory + ":\Plex\Anime\\" + anime.name
+            torrenthandler.insert_downloadpath(download_path)
+            torrenthandler.submit_links()
+            
+
+
+            
 
     

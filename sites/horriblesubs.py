@@ -50,9 +50,10 @@ def get_every_seasonal_anime():
         go_to_anime(anime.title)
         anime.url = hs_driver.current_url
         show_all_episodes()
-        
+        anime.episodes = get_magnet_links()
+        seasonal_anime_list.append(anime)
 
-    return []
+    return seasonal_anime_list
 
 
 def show_all_episodes():

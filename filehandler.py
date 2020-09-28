@@ -1,4 +1,6 @@
 import os
+import logger
+from config import directories
 
 
 def check_episodes_status(anime, directory):
@@ -18,7 +20,24 @@ def check_if_files_exist(anime):
     else:
         return False
 
-#TODO
-#Give back the amount of files in the animes directory
-def check_if_anime_up_to_date(anime):
-    return True
+# TODO
+# Give back the amount of files in the animes directory
+
+
+def check_if_anime_up_to_date(anime_name, episodes_available):
+    for directory in directories:
+        anime_path = os.path.isdir('{}:\Plex\Anime\{}'.format(directory, anime_name))
+        if anime_path:
+            episodes_downloaded = len([name for name in os.listdir(
+                anime_path) if os.path.isfile(os.path.join(anime_path, name))])
+            if int(episodes_available - episodes_downloaded) == 0:
+                return None
+            else:
+                new_episodes = int(episodes_available - episodes_downloaded)
+                return new_episodes
+    try:
+        os.mkdir('{}:\Plex\Anime\{}'.format(directories[-1], anime_name))
+        return episodes_available
+    except:
+        logger.error("Couldn't create directory: " + '{}:\Plex\Anime\{}'.format(directories[-1], anime_name)
+ 
