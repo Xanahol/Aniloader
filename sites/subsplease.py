@@ -15,19 +15,20 @@ import threading
 import filehandler
 import logger
 import config
+import re
 
 hs_driver = webdriver.Chrome(ChromeDriverManager().install())
 
 
 def open_overview_page():
-    logger.info("Connecting to HorribleSubs")
-    hs_driver.get('https://horriblesubs.info/shows/')
+    logger.info("Connecting to Subsplease")
+    hs_driver.get('https://subsplease.org/')
     WebDriverWait(hs_driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//div[@class='ind-show']/a")))
 
 
 def open_seasonal_page():
-    logger.info("Connecting to HorribleSubs Seasonal page")
+    logger.info("Connecting to subsplease Seasonal page")
     hs_driver.get('https://horriblesubs.info/current-season/')
     time.sleep(2)
 
@@ -46,15 +47,29 @@ def leave_anime():
 # TODO
 # return a list of all seasonal anime from the class Anime
 
+def strip_ep_from_title(raw):
+    trimmed = re.sub(" —.*", '', raw)
+    return trimmed
+
+def detect_season(raw):
+    trimmed = re.split(" S[1-9]", raw)
+    season = int(trimmed[1].replace(' S', ''))
+    return season
+    
+def detect_title(raw):
+    trimmed = re.split(" S[1-9]", raw)
+    return trimmed[0]
 
 def get_every_seasonal_anime():
     seasonal_anime_list = []
-    elements = hs_driver.find_elements_by_xpath("//div[@class='ind-show']/a")
-    for element in elements[:2]:
-        logger.info("Collecting links for " + element.text)
+    elements = hs_driver.find_elements_by_xpath("//tr[@class='new']/td/a")
+    for element in elements:
+        anime_raw = strip_ep_from_title(element.text)
+        logger.info("Collecting links for " + anime_raw)
         anime = Anime(None, None, None)
-        anime.title = element.get_attribute("title")
-        go_to_anime(anime.title)
+        anime.season = detect_season(anime_raw)
+        anime.title = detect_title(anime_raw)
+        
         anime.url = hs_driver.current_url
         show_all_episodes()
         anime.episodes = get_magnet_links()
