@@ -5,9 +5,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
-import sites.the_tvdb as thetvdb
-import sites.torrenthandler as torrenthandler
-import sites.horriblesubs as horriblesubs
+import os
+import re
 import socket
 import userhandler
 import threading
@@ -18,7 +17,10 @@ import config
 
 def simple_download():
 
-    horriblesubs.open_overview_page()
+    import sites.torrenthandler as torrenthandler
+    import sites.subsplease as subsplease
+
+    subsplease.open_overview_page()
     thetvdb.connect_to_thetvdb()
 
     torrenthandler.open_qbittorrent()
@@ -26,9 +28,9 @@ def simple_download():
 
     anime = userhandler.ask_for_anime()
     thetvdb.check_for_anime_in_db(anime)
-    horriblesubs.go_to_anime(anime)
-    horriblesubs.show_all_episodes()
-    magnet_links = horriblesubs.get_magnet_links()
+    subsplease.go_to_anime(anime)
+    subsplease.show_all_episodes()
+    magnet_links = subsplease.get_magnet_links()
 
     torrenthandler.open_add_link_interface()
     download_path = userhandler.ask_for_downloadpath()
@@ -37,30 +39,66 @@ def simple_download():
     torrenthandler.submit_links()
 
 
-# TODO
-# Download all seasonal anime episodes that have not been added yet
 def update_seasonal():
-    horriblesubs.open_seasonal_page()
+
+    import sites.torrenthandler as torrenthandler
+    import sites.subsplease as subsplease
+    import sites.the_tvdb as thetvdb
+
+    thetvdb.tvdb_driver.quit()
+
+    subsplease.open_overview_page()
 
     torrenthandler.open_qbittorrent()
     torrenthandler.log_in()
+    logger.info('Login successful!')
 
-    anime_list = horriblesubs.get_every_seasonal_anime()
+    anime_list = subsplease.get_every_anime_with_new_ep()
+    logger.newline()
+    logger.info('Starting Download-Process...')
+    logger.newline()
     for anime in anime_list:
-        horriblesubs.go_to_anime(anime.title)
+        subsplease.go_to_anime(anime.latest_title_on_overview)
         episodes_available = len(anime.episodes)
-        episode_difference = filehandler.check_if_anime_up_to_date(anime.title, episodes_available)
+        logger.info("The anime {} has {} episodes so far".format(anime.title, len(anime.episodes)))
+        episode_difference = filehandler.check_if_anime_up_to_date(anime.title, anime.season, episodes_available)
+        download_path = filehandler.check_directory_for_anime(anime.title, anime.season)
+        logger.info("Downloading them to {}".format(download_path))
         if episode_difference is not None:
-            links_to_download = anime.episodes[-int(episode_difference):]
-            anime.episodes = links_to_download
+            logger.info("{} of which are not on the server yet".format(episode_difference))
+            links_to_download = anime.episodes[:int(episode_difference)]
             torrenthandler.open_add_link_interface()
-            torrenthandler.insert_links(anime.episodes)
-            download_path = config.default_directory + ':\Plex\Anime\{}'.format(anime.title)
+            logger.info('Inserting Links to download')
+            torrenthandler.insert_links(links_to_download)
+            logger.info('Inserting Download Path')
             torrenthandler.insert_downloadpath(download_path)
+            logger.info('Submitting Links')
             torrenthandler.submit_links()
-            horriblesubs.leave_anime()
-        horriblesubs.leave_anime()
+            subsplease.leave_anime()
+            logger.info('Process finished for ' + anime.title)
+            logger.newline()
+        else:
+            subsplease.leave_anime()
+            logger.info(anime.title + ' is already up to date')
+            logger.info('Process finished for ' + anime.title)
+            logger.newline()
 
+    torrenthandler.torrent_driver.quit()
+    subsplease.sp_driver.quit()
+
+
+def test_function():
+    anime_list = os.walk(config.directories)
+    dir_list = []
+    for anime in anime_list:
+        if re.search('Season ', anime[0]):
+            dir_list.append(anime[0])
+    print(dir_list)
+
+def standardize_downloaded():
+    for directory in config.directories:
+        path_list = filehandler.select_paths(directory)
+        filehandler.rename(path_list)
 
             
 

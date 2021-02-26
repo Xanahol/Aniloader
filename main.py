@@ -20,11 +20,14 @@ for current_argument, current_value in arguments:
         print(tabulate(helptable))
 
     elif current_argument in ("-m", "--mode"):
-        print("I SEE THE LIGHT " + current_value + current_argument)
         if current_value == 'getAnime': 
             crawler.simple_download()
         elif current_value == 'updateSeasonal': 
             crawler.update_seasonal()
+        elif current_value == 'standard':
+            crawler.standardize_downloaded()
+        elif current_value == 'test': 
+            crawler.test_function()
 
     elif current_argument in ("-s", "--site"):
         # TODO

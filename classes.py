@@ -3,6 +3,9 @@ class Anime:
         self.title = None
         self.db_name = None
         self.url = None
+        self.season = None
+        self.latest_title_on_overview = None
+        self.newepisodes = []
         self.episodes = []
 
 
