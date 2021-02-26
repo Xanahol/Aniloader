@@ -13,3 +13,6 @@ def error(error):
 
 def debug(debug):
     print(now + " - DEBUG - " + debug)
+
+def newline():
+    print('\n')

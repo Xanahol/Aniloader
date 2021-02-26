@@ -13,6 +13,7 @@ import logger
 import config
 
 tvdb_driver = webdriver.Chrome(ChromeDriverManager().install())
+tvdb_driver.set_window_position(-10000,0)
 
 
 def connect_to_thetvdb():

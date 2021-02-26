@@ -13,8 +13,10 @@ import threading
 import filehandler
 import logger
 import config
+import time
 
 torrent_driver = webdriver.Chrome(ChromeDriverManager().install())
+torrent_driver.set_window_position(-10000,0)
 
 
 def open_qbittorrent():
@@ -61,6 +63,7 @@ def log_in():
 
 
 def open_add_link_interface():
+    time.sleep(2)
     download = WebDriverWait(torrent_driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//*[@id='downloadButton']")))
     ActionChains(torrent_driver).click(download).perform()
