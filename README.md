@@ -41,6 +41,9 @@ As a frequent Anime-watcher and Series-Collector, who wants to stay up to date w
 I had to find a solution to the constant *"Downloading all Episodes released that day in the evening".* So I automated it. 
 I hope that this Programm can lighten your day, even if just by a bit.
 
+Not affiliated to source i.e. **[subsplease.org](https://subsplease.org)** in any way <br />
+Support the official site **[subsplease.org](https://subsplease.org)**
+
 Here's why:
 * Your time to browse the **NEW** Anime of the day and downloading every single Episode manually can be used for much more important activities. Like watching more Anime!
 * You shouldn't have to organize your entire library manually just so Daddy-Plex is happy. It's a hassle. Let Aniloader take care of it for you.
