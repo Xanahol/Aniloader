@@ -1,3 +1,4 @@
+<img src="images/aniloader logo.JPG" alt="Logo" width="100%"></br></br>
 # Aniloader
 Update your Anime-Library with one command!
 
@@ -6,7 +7,7 @@ Update your Anime-Library with one command!
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#About-Aniloader">About Aniloader</a>
+      <a href="#about-aniloader">About Aniloader</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
       </ul>
