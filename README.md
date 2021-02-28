@@ -62,11 +62,11 @@ Though not a necesity, I very much recommend the media-Player due to its versiti
 
 * qBittorrent</br>
 This Application uses the **qBittorrent Web UI** to manage the Magnet-Links found on SubsPlease. After installing it from the [official site](https://www.qbittorrent.org/), 
-make sure that the *options->Web UI* match this Picture:</br>
-PIC</br>
-**IP address:** Type your IPv4-address. You can find it by typing *ipconfig* in your console
-**Port:** Make sure this number matches with the *torrent_port* you defined in Aniloaders `config.py`
-**Authentication:** Define a username and password
+make sure that the *options->Web UI* match this Picture:</br></br>
+<img src="images/qbit.png" alt="qBit" width="600"></br></br>
+**IP address:** Type your IPv4-address. You can find it by typing *ipconfig* in your console</br>
+**Port:** Make sure this number matches with the *torrent_port* you defined in Aniloaders `config.py`</br>
+**Authentication:** Define a username and password</br>
 
 ### Installation
 
