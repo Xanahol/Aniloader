@@ -1,9 +1,8 @@
+from config import directories
 import os
 import logger
-import config
 import pathlib
 import re
-from config import directories
 
 
 def check_episodes_status(anime, directory):
@@ -20,9 +19,11 @@ def detect_season_on_path(path):
     s = int(re.findall('\d.*', season)[0])
     return s
 
+
 def detect_anime_on_path(path):
     title = re.split(r'\\', path)[-2]
     return title
+
 
 def detect_episode_from_old_name(file_name):
     print(file_name)
@@ -56,15 +57,18 @@ def check_if_anime_up_to_date(anime_name, season, episodes_available):
         anime_has_dir = os.path.isdir(
             directory + '\{}'.format(anime_name))
         if anime_has_dir:
-            complete_dir = directory + '\{}\Season 0{}'.format(anime_name, season)
+            complete_dir = directory + \
+                '\{}\Season 0{}'.format(anime_name, season)
             season_has_dir = os.path.isdir(
                 directory + '\{}\Season 0{}'.format(anime_name, season))
             if season_has_dir:
-                episodes_downloaded = len([name for name in os.listdir(complete_dir) if os.path.isfile(os.path.join(complete_dir, name))])
+                episodes_downloaded = len([name for name in os.listdir(
+                    complete_dir) if os.path.isfile(os.path.join(complete_dir, name))])
                 if int(episodes_available - episodes_downloaded) == 0:
                     return None
                 else:
-                    new_episodes = int(episodes_available - episodes_downloaded)
+                    new_episodes = int(
+                        episodes_available - episodes_downloaded)
                     return new_episodes
             else:
                 anime_dir = directory + '\{}'.format(anime_name)
@@ -78,6 +82,7 @@ def check_if_anime_up_to_date(anime_name, season, episodes_available):
     os.mkdir(os.path.join(anime_dir, season_dir))
     return check_if_anime_up_to_date(anime_name, season, episodes_available)
 
+
 def select_paths(directory):
     anime_list = os.walk(directory)
     dir_list = []
@@ -87,6 +92,7 @@ def select_paths(directory):
     logger.info('Collected every anime on '+directory)
     return dir_list
 
+
 def rename(path_list):
     for path in path_list:
         season = detect_season_on_path(path)
@@ -94,6 +100,7 @@ def rename(path_list):
         logger.info('Renaming '+str(anime)+' Season '+str(season))
         rename_anime(anime, season, path)
         logger.info('Renaming successful')
+
 
 def rename_anime(anime, season, path):
     for part in pathlib.Path(path).iterdir():
@@ -107,13 +114,13 @@ def rename_anime(anime, season, path):
                 episode = detect_episode_from_old_name(name)
                 directory = part.parent
                 name = anime+' - S0'+str(season)+'E0'+str(episode)+'.mkv'
-                part.rename(pathlib.Path(directory, name)) 
+                part.rename(pathlib.Path(directory, name))
             if re.search(r'- S\dE\d', name):
                 episode = detect_fix_name(name)
                 directory = part.parent
                 name = anime+' - S0'+str(season)+'E0'+str(episode)+'.mkv'
                 part.rename(pathlib.Path(directory, name))
-            
+
 
 def detect_fix_name(name):
     episode = re.findall(r'E\d+', name)[0]

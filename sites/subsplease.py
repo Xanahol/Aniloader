@@ -1,24 +1,16 @@
 from selenium import webdriver
-from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
-import sites.the_tvdb as thetvdb
-import sites.torrenthandler as torrenthandler
 from classes import Anime
-import socket
 import time
-import userhandler
-import threading
-import filehandler
 import logger
-import config
 import re
 
 sp_driver = webdriver.Chrome(ChromeDriverManager().install())
-sp_driver.set_window_position(-10000,0)
+sp_driver.set_window_position(-10000, 0)
+
 
 def open_overview_page():
     logger.info("Connecting to Subsplease")
@@ -66,7 +58,8 @@ def detect_title(raw):
 
 def get_every_anime_with_new_ep():
     anime_with_new_ep_list = []
-    WebDriverWait(sp_driver, 10).until(EC.presence_of_element_located((By.XPATH, "//tr[@class='new']/td/a")))
+    WebDriverWait(sp_driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//tr[@class='new']/td/a")))
     elements = sp_driver.find_elements_by_xpath("//tr[@class='new']/td/a")
     logger.info('Found {} Anime with the tag "New!"'.format(len(elements)))
     for element in elements:
@@ -75,7 +68,8 @@ def get_every_anime_with_new_ep():
         anime.latest_title_on_overview = element.text
         anime.season = detect_season(anime_raw)
         anime.title = detect_title(anime_raw)
-        logger.info("Collecting links for {} | Season {}".format(anime.title, anime.season))
+        logger.info("Collecting links for {} | Season {}".format(
+            anime.title, anime.season))
         go_to_anime(element.text)
         anime.episodes = get_magnet_links()
         anime_with_new_ep_list.append(anime)
@@ -89,10 +83,10 @@ def get_every_anime_with_new_ep():
 def get_magnet_links():
     time.sleep(2)
     links = list()
-    WebDriverWait(sp_driver, 10).until(EC.presence_of_element_located((By.XPATH, "//a[contains(@href,'1080p')]/span[text()='Magnet']/..")))
+    WebDriverWait(sp_driver, 10).until(EC.presence_of_element_located(
+        (By.XPATH, "//a[contains(@href,'1080p')]/span[text()='Magnet']/..")))
     magnet_elements = sp_driver.find_elements_by_xpath(
-    "//a[contains(@href,'1080p')]/span[text()='Magnet']/..")
+        "//a[contains(@href,'1080p')]/span[text()='Magnet']/..")
     for element in magnet_elements:
         links.append(element.get_attribute("href"))
     return links
-    

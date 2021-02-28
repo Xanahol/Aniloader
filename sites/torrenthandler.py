@@ -5,18 +5,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
-import sites.the_tvdb as thetvdb
-import sites.torrenthandler as torrenthandler
 import socket
 import userhandler
-import threading
-import filehandler
 import logger
 import config
 import time
 
 torrent_driver = webdriver.Chrome(ChromeDriverManager().install())
-torrent_driver.set_window_position(-10000,0)
+torrent_driver.set_window_position(-10000, 0)
 
 
 def open_qbittorrent():
@@ -91,7 +87,6 @@ def insert_downloadpath(path):
         "//*[@id='savepath']")
     element_savepath.clear()
     element_savepath.send_keys(path)
-    
 
 
 def submit_links():

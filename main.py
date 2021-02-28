@@ -1,6 +1,5 @@
 import crawler
 import userhandler
-import logger
 from tabulate import tabulate
 
 
@@ -12,24 +11,22 @@ for current_argument, current_value in arguments:
         helptable = [
             ["-h", "--help", "Shows all parameter options"],
             ["-m", "--mode", 'Select a mode to run the download'],
-            ["", "getAnime", 'Download a specific anime'],
+            # TODO
+            # ["", "getAnime", 'Download a specific anime'],
             ["", "updateSeasonal", 'Update to the seasonal progress'],
-            [],
-            ["-s", "--site", "Select a site on which you want to download"]
+            ["", "standard", 'Standardize your anime-libraries for Plex to read'],
+            # TODO
+            # ["-s", "--site", "Select a site on which you want to download"]
         ]
         print(tabulate(helptable))
 
     elif current_argument in ("-m", "--mode"):
-        if current_value == 'getAnime': 
+        if current_value == 'getAnime':
             crawler.simple_download()
-        elif current_value == 'updateSeasonal': 
+        elif current_value == 'updateSeasonal':
             crawler.update_seasonal()
         elif current_value == 'standard':
             crawler.standardize_downloaded()
-        elif current_value == 'test': 
-            crawler.test_function()
 
     elif current_argument in ("-s", "--site"):
-        # TODO
-        # implement support for multiple sites (Animekaizoku)
         print(("Not implemented yet") % (current_value))

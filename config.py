@@ -1,4 +1,6 @@
-ip_4 = "192.168.1.135"
+# Include all your Information here
+
+ip_4 = "192.168.4.162"
 torrent_port = "8080"
 
-directories = ['I:\Plex\Anime','J:\Plex\Anime', 'G:\Plex\Anime']
+directories = ['C:\Example\Plex\Anime', 'D:\Example\Path\To\Plex\Anime']
