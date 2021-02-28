@@ -37,16 +37,16 @@ Update your Anime-Library with one command!
 <!-- ABOUT THE PROJECT -->
 ## About Aniloader
 
-As a frequent Anime-watcher and Series-Collector, who wants to stay up to Date with the newest releases in an hourly fashion,
+As a frequent Anime-watcher and Series-Collector, who wants to stay up to date with the newest releases in an hourly fashion,
 I had to find a solution to the constant *"Downloading all Episodes released that day in the evening".* So I automated it. 
-I really hope that this Programm can lighten your day, even if just by a bit.
+I hope that this Programm can lighten your day, even if just by a bit.
 
 Here's why:
-* Your time to browse the **NEW** Anime of the day and downloading every single Episodes manually can be used for much more important activities. Like watching more Anime!
-* You shouldn't have to organizing your entire library manually just so Daddy-Plex is happy. It's a hassel. Let Aniloader take care of it for you.
+* Your time to browse the **NEW** Anime of the day and downloading every single Episode manually can be used for much more important activities. Like watching more Anime!
+* You shouldn't have to organize your entire library manually just so Daddy-Plex is happy. It's a hassle. Let Aniloader take care of it for you.
 * You should just be able to enjoy the latest Anime right when it comes out. Let Aniloader do the delivery :mailbox_with_mail:
 
-Of course, this is only one of the possible functions. So you can expect me to be adding more features in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue.
+Of course, this is only one of the possible functions. So you can expect me to be adding more features soon. You may also suggest changes by forking this repo and creating a pull request or opening an issue.
 
 ### Built With
 
@@ -64,7 +64,7 @@ Of course, this is only one of the possible functions. So you can expect me to b
 ### Prerequisites
 
 * Plex</br>
-Though not a necesity, I very much recommend the media-Player due to its versitillity.
+Though not a necessity, I very much recommend the media-Player due to its versatility.
 [Official Site](https://www.plex.tv/)
 
 * qBittorrent</br>
@@ -141,7 +141,7 @@ Here is how you can run the different modes and what they do:
   </br>
 
   After the Links have been collected, they are submitted to qBittorrent.</br>
-  If the anime/season folder doesen't exist, Aniloader adds it (first defined dir in `config.py`). If one does, it uses the one already definded.</br>
+  If the anime/season folder doesn't exist, Aniloader adds it (first defined dir in `config.py`). If one does, it uses the one already defined.</br>
 
   ```console
     Feb-28-2021 18:55:38 - INFO - Starting Download-Process...
@@ -165,7 +165,7 @@ Here is how you can run the different modes and what they do:
   ```
   </br>
 
-  At this point you can monitor what is being put in your download-queue and you can delete whatever you don't need.</br></br>
+  At this point, you can monitor what is being put in your download-queue and you can delete whatever you don't need.</br></br>
 
 
  ### Standardize
@@ -199,7 +199,7 @@ See the [open issues](https://github.com/Xanahol/Aniloader/issues) for a list of
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what makes the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
