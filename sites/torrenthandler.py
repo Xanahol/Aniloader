@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
+import sites.subsplease as subsplease
 import socket
 import userhandler
 import logger
@@ -87,6 +88,16 @@ def insert_downloadpath(path):
         "//*[@id='savepath']")
     element_savepath.clear()
     element_savepath.send_keys(path)
+
+def queue(links, path):
+    open_add_link_interface()
+    logger.info('Inserting Links to download')
+    insert_links(links)
+    logger.info('Inserting Download Path')
+    insert_downloadpath(path)
+    logger.info('Submitting Links')
+    submit_links()
+    subsplease.leave_anime()
 
 
 def submit_links():
