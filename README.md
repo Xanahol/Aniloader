@@ -22,6 +22,7 @@ Update your Anime-Library with one command!
     <li>
       <a href="#usage">Usage</a>
       <ul>
+        <li><a href="#get-anime">Simple Download</a></li>
         <li><a href="#update-seasonal">Update Seasonal</a></li>
         <li><a href="#standardize">Standardize</a></li>
       </ul>
@@ -103,6 +104,63 @@ make sure that the *options->Web UI* match this Picture:</br></br>
 
 Here is how you can run the different modes and what they do:
 
+### Simple Download
+ #### Download a specific Anime / Update it in your library to the newest version!</br></br>
+  To run, type:</br>
+
+  ```console
+  python.exe .\main.py -m getAnime  
+  ```
+  </br>
+  Aniloader connects to SubsPlease and the qBittorrent Web-UI.</br>
+
+  ```console
+    Feb-28-2021 18:55:38 - INFO - Connecting to Subsplease
+    Feb-28-2021 18:55:38 - INFO - Connecting to the qBittorrent
+    Feb-28-2021 18:55:38 - INFO - Your IP is: 192.168.1.135
+  ```
+  </br>
+
+  Aniloader starts up by asking for your qBittorrent-credentials. Type them into the console and hit **Enter**.</br>
+
+  ```console
+    Please enter your credentials for qBittorrent:
+    Username: Xana
+    Password (Invisible): MyVerySafePassword123
+    Feb-28-2021 18:55:38 - INFO - Login successful!
+  ```
+  </br>
+
+  It then proceeds by asking you for the Anime name. Type the name of the Anime you would like to update/download. It works the most reliable when the title is directly taken from **[subsplease.org](https://subsplease.org)**:</br>
+
+  ```console
+    Which anime would you like to download?
+    Akudama Drive
+    Feb-28-2021 18:55:38 - INFO - This anime is batched
+    Feb-28-2021 18:55:38 - INFO - Collecting batch-link for Akudama Drive | Season 1
+    Feb-28-2021 18:55:38 - INFO - Collected batch-link
+  ```
+  </br>
+
+  After the Links have been collected, they are submitted to qBittorrent.</br>
+  If the anime/season folder doesn't exist, Aniloader adds it (first defined dir in `config.py`). If one does, it uses the one already defined.</br>
+
+  ```console
+    Feb-28-2021 18:55:38 - INFO - Starting Download-Process...
+
+    Feb-28-2021 18:55:38 - INFO - The anime Akudama Drive has 12 episodes so far
+    Feb-28-2021 18:55:38 - INFO - Downloading them to C:\Example\Plex\Anime\Akudama Drive\Season 01
+    Feb-28-2021 18:55:38 - INFO - 3 of which are not on the server yet
+    Feb-28-2021 18:55:38 - INFO - Deleting out of date files
+    Feb-28-2021 18:55:38 - INFO - Inserting Links to download
+    Feb-28-2021 18:55:38 - INFO - Inserting Download Path
+    Feb-28-2021 18:55:38 - INFO - Submitting Links
+    Feb-28-2021 18:55:38 - INFO - Process finished for Akudama Drive
+  ```
+  </br>
+
+  At this point, you can monitor what is being put in your download-queue and you can delete whatever you don't need.</br></br>
+
 ### Update Seasonal
  #### Update your library with the freshest Anime of the day!</br></br>
   To run, type:</br>
@@ -117,7 +175,6 @@ Here is how you can run the different modes and what they do:
     Feb-28-2021 18:55:38 - INFO - Connecting to Subsplease
     Feb-28-2021 18:55:38 - INFO - Connecting to the qBittorrent
     Feb-28-2021 18:55:38 - INFO - Your IP is: 192.168.1.135
-    ...
   ```
   </br>
 
@@ -125,8 +182,8 @@ Here is how you can run the different modes and what they do:
 
   ```console
     Please enter your credentials for qBittorrent:
-    Username:Xana
-    Password:MyVerySafePassword123
+    Username: Xana
+    Password (Invisible): MyVerySafePassword123
     Feb-28-2021 18:55:38 - INFO - Login successful!
   ```
   </br>
