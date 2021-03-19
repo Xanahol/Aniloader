@@ -89,7 +89,8 @@ def check_if_anime_up_to_date(anime_name, season, episodes_available):
                 if int(episodes_available) - episodes_downloaded == 0:
                     return None
                 else:
-                    new_episodes = int(episodes_available) - episodes_downloaded
+                    new_episodes = int(episodes_available) - \
+                        episodes_downloaded
                     return new_episodes
             else:
                 anime_dir = directory + '\{}'.format(anime_name)
@@ -123,26 +124,31 @@ def rename(path_list):
         logger.info('Renaming successful')
 
 
-def rename_anime(anime, season, path):
-    for part in pathlib.Path(path).iterdir():
-        # if part.is_dir():
-        #     print("A DIR" + str(part))
-        if part.is_file():
-            name = part.stem
+def rename_anime(anime, season, anime_path):
+    # Path to subelement == sub_element
+    for sub_element in pathlib.Path(anime_path).iterdir():
+        if sub_element.is_dir():
+            for filename in os.listdir(sub_element):
+                shutil.move(os.join(anime_path, filename),
+                            os.join(sub_element, filename))
+                os.rmdir(sub_element)
+    for sub_element in pathlib.Path(anime_path).iterdir():
+        if sub_element.is_file() and sub_element.is_dir is False:
+            name = sub_element.stem
             if not re.search(r'.mkv', name):
-                directory = part.parent
+                directory = sub_element.parent
                 name = name+'.mkv'
-                part.rename(pathlib.Path(directory, name))
+                sub_element.rename(pathlib.Path(directory, name))
             if re.search('1080p', name):
                 episode = detect_episode_from_old_name(name)
-                directory = part.parent
+                directory = sub_element.parent
                 name = anime+' - S0'+season+'E0'+episode+'.mkv'
-                part.rename(pathlib.Path(directory, name))
+                sub_element.rename(pathlib.Path(directory, name))
             if re.search(r'- S\dE\d', name):
                 episode = detect_fix_name(name)
-                directory = part.parent
+                directory = sub_element.parent
                 name = anime+' - S0'+season+'E0'+episode+'.mkv'
-                part.rename(pathlib.Path(directory, name))
+                sub_element.rename(pathlib.Path(directory, name))
 
 
 def detect_fix_name(name):

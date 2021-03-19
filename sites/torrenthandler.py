@@ -89,6 +89,7 @@ def insert_downloadpath(path):
     element_savepath.clear()
     element_savepath.send_keys(path)
 
+
 def queue(links, path):
     open_add_link_interface()
     logger.info('Inserting Links to download')
