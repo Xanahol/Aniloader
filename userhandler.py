@@ -1,3 +1,4 @@
+from getpass import getpass
 import getopt
 import sys
 
@@ -15,7 +16,7 @@ def ask_for_username():
 
 
 def ask_for_password():
-    return input("Password:")
+    return getpass.getpass('Password (Invisible):')
 
 
 def get_parameters():
