@@ -31,8 +31,12 @@ def simple_download():
     anime.season = subsplease.detect_season(anime.latest_title_on_overview)
     if anime.batched is True:
         logger.info("This anime is batched")
+        logger.info("Collecting batch-link for {} | Season {}".format(
+            anime.title, anime.season))
         anime.amount_of_episodes = subsplease.extract_amount_of_episodes_from_batch()
         anime.episodes = subsplease.extract_episodes_from_batch()
+        logger.info("Collected batch-link".format(
+            anime.title, anime.season))
     else:
         anime.episodes = subsplease.get_magnet_links()
         anime.amount_of_episodes = len(anime.episodes)

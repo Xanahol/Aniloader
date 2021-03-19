@@ -12,11 +12,11 @@ def ask_for_downloadpath():
 
 
 def ask_for_username():
-    return input("Please enter your credentials for qBittorrent:\nUsername:")
+    return input("Please enter your credentials for qBittorrent:\nUsername: ")
 
 
 def ask_for_password():
-    return getpass.getpass('Password (Invisible):')
+    return getpass.getpass('Password (Invisible): ')
 
 
 def get_parameters():
