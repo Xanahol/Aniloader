@@ -7,6 +7,8 @@ class Anime:
         self.latest_title_on_overview = None
         self.newepisodes = []
         self.episodes = []
+        self.amount_of_episodes = None
+        self.batched = False
 
 
 class Episode:

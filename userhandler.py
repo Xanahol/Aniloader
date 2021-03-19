@@ -28,5 +28,5 @@ def get_parameters():
             argument_list, short_options, long_options)
         return arguments
     except getopt.error as err:
-        print(str(err))
+        print(err)
         sys.exit(2)

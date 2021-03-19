@@ -9,12 +9,18 @@ import logger
 import re
 
 sp_driver = webdriver.Chrome(ChromeDriverManager().install())
-sp_driver.set_window_position(-10000, 0)
+#sp_driver.set_window_position(-10000, 0)
 
 
 def open_overview_page():
     logger.info("Connecting to Subsplease")
     sp_driver.get('https://subsplease.org/')
+    time.sleep(9)
+
+
+def open_all_anime_page():
+    logger.info("Connecting to Subsplease")
+    sp_driver.get('https://subsplease.org/shows//')
     time.sleep(9)
 
 
@@ -45,15 +51,48 @@ def strip_ep_from_title(raw):
 def detect_season(raw):
     s = re.findall(" S[1-9]", raw)
     if s:
-        season = int(s[0].replace(' S', ''))
+        season = s[0].replace(' S', '')
         return season
     else:
-        return 1
+        return str(1)
+
+
+def detect_batched():
+    try:
+        WebDriverWait(sp_driver, 5).until(
+            EC.presence_of_element_located((By.XPATH, "//h2[contains(text(), 'Batch')]")))
+        return True
+    except:
+        return False
+
+
+def extract_episodes_from_batch():
+    WebDriverWait(sp_driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//a[contains(@href,'1080p')]/span[text()='Magnet']/..")))
+    magnet_element = sp_driver.find_element_by_xpath(
+        "//a[contains(@href,'1080p')]/span[text()='Magnet']/..")
+    return [magnet_element.get_attribute("href")]
 
 
 def detect_title(raw):
     trimmed = re.split(" S[1-9]", raw)
     return trimmed[0]
+
+
+def extract_latest_title():
+    WebDriverWait(sp_driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//h1[@class='entry-title']")))
+    return sp_driver.find_element_by_xpath(
+        "//h1[@class='entry-title']").text
+
+
+def extract_amount_of_episodes_from_batch():
+    WebDriverWait(sp_driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//label[contains(text(), 'Batch')]")))
+    batch_text = sp_driver.find_element_by_xpath(
+        "//label[contains(text(), 'Batch')]").text
+    amount_of_episodes = re.findall('\d*(?= \(Batch\))', batch_text)[0]
+    return amount_of_episodes
 
 
 def get_every_anime_with_new_ep():
@@ -71,9 +110,15 @@ def get_every_anime_with_new_ep():
         logger.info("Collecting links for {} | Season {}".format(
             anime.title, anime.season))
         go_to_anime(element.text)
-        anime.episodes = get_magnet_links()
+        anime.batched = detect_batched()
+        if not anime.batched:
+            anime.episodes = get_magnet_links()
+            anime.amount_of_episodes = len(anime.episodes)
+        else:
+            anime.amount_of_episodes = extract_amount_of_episodes_from_batch()
+            anime.episodes = extract_episodes_from_batch()
         anime_with_new_ep_list.append(anime)
-        logger.info("Collected {} links".format(len(anime.episodes)))
+        logger.info("Collected {} links".format(anime.amount_of_episodes))
         leave_anime()
         time.sleep(2)
 

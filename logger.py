@@ -4,15 +4,21 @@ now = datetime.datetime.now().strftime("%b-%d-%Y %H:%M:%S")
 
 
 def info(info):
-    print(now + " - INFO - " + info)
+    msg = now + " - INFO - " + info# + newline
+    print(msg)
+    # log(msg)
 
 
 def error(error):
-    print(now + " - ERROR - " + error)
+    msg = now + " - ERROR - " + error #+ newline
+    print(msg)
+    # log(msg)
 
 
 def debug(debug):
-    print(now + " - DEBUG - " + debug)
+    msg = now + " - DEBUG - " + debug #+ newline
+    print(msg)
+    # log(msg)
 
 
 def newline():
