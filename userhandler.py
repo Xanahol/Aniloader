@@ -16,7 +16,7 @@ def ask_for_username():
 
 
 def ask_for_password():
-    return getpass.getpass('Password (Invisible): ')
+    return getpass('Password (Invisible): ')
 
 
 def get_parameters():

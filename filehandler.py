@@ -129,26 +129,26 @@ def rename_anime(anime, season, anime_path):
     for sub_element in pathlib.Path(anime_path).iterdir():
         if sub_element.is_dir():
             for filename in os.listdir(sub_element):
-                shutil.move(os.join(anime_path, filename),
-                            os.join(sub_element, filename))
-                os.rmdir(sub_element)
-    for sub_element in pathlib.Path(anime_path).iterdir():
-        if sub_element.is_file() and sub_element.is_dir is False:
-            name = sub_element.stem
+                shutil.move(os.path.join(sub_element, filename),
+                            os.path.join(anime_path, filename))
+            os.rmdir(sub_element)
+    for file in pathlib.Path(anime_path).iterdir():
+        if file.is_file():
+            name = file.stem
             if not re.search(r'.mkv', name):
-                directory = sub_element.parent
+                directory = file.parent
                 name = name+'.mkv'
-                sub_element.rename(pathlib.Path(directory, name))
+                file.rename(pathlib.Path(directory, name))
             if re.search('1080p', name):
                 episode = detect_episode_from_old_name(name)
-                directory = sub_element.parent
+                directory = file.parent
                 name = anime+' - S0'+season+'E0'+episode+'.mkv'
-                sub_element.rename(pathlib.Path(directory, name))
+                file.rename(pathlib.Path(directory, name))
             if re.search(r'- S\dE\d', name):
                 episode = detect_fix_name(name)
-                directory = sub_element.parent
+                directory = file.parent
                 name = anime+' - S0'+season+'E0'+episode+'.mkv'
-                sub_element.rename(pathlib.Path(directory, name))
+                file.rename(pathlib.Path(directory, name))
 
 
 def detect_fix_name(name):

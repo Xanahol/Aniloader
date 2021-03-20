@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
-import sites.subsplease as subsplease
+from sites.subsplease import leave_anime
 import socket
 import userhandler
 import logger
@@ -98,7 +98,7 @@ def queue(links, path):
     insert_downloadpath(path)
     logger.info('Submitting Links')
     submit_links()
-    subsplease.leave_anime()
+    leave_anime()
 
 
 def submit_links():

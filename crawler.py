@@ -1,7 +1,5 @@
 import filehandler
 import userhandler
-import sites.torrenthandler as torrenthandler
-import sites.subsplease as subsplease
 import logger
 import config
 from classes import Anime
@@ -56,7 +54,7 @@ def simple_download():
 
     logger.info("Downloading them to {}".format(download_path))
 
-    download(episode_difference, anime, download_path)
+    download(episode_difference, anime, download_path, subsplease, torrenthandler)
 
     torrenthandler.torrent_driver.quit()
     subsplease.sp_driver.quit()
@@ -87,7 +85,7 @@ def update_seasonal():
         download_path = filehandler.check_directory_for_anime(
             anime.title, anime.season)
         logger.info("Downloading them to {}".format(download_path))
-        download(episode_difference, anime, download_path)
+        download(episode_difference, anime, download_path, subsplease, torrenthandler)
 
     torrenthandler.torrent_driver.quit()
     subsplease.sp_driver.quit()
@@ -99,7 +97,7 @@ def standardize_downloaded():
         filehandler.rename(path_list)
 
 
-def download(episode_difference, anime, download_path):
+def download(episode_difference, anime, download_path, subsplease, torrenthandler):
     if episode_difference is not None and anime.batched is True:
         logger.info("Deleting out of date files")
         filehandler.remove_episodes(
