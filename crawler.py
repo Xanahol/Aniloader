@@ -14,7 +14,6 @@ def simple_download():
     torrenthandler.open_qbittorrent()
 
     torrenthandler.log_in()
-    logger.info('Login successful!')
 
     anime = Anime(None, None, None)
 
@@ -69,7 +68,6 @@ def update_seasonal():
 
     torrenthandler.open_qbittorrent()
     torrenthandler.log_in()
-    logger.info('Login successful!')
 
     anime_list = subsplease.get_every_anime_with_new_ep()
     logger.newline()

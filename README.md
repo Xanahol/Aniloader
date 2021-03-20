@@ -77,7 +77,14 @@ make sure that the *options->Web UI* match this Picture:</br></br>
 <img src="images/qbit.png" alt="qBit" width="600"></br></br>
 **IP address:** Type your IPv4-address. You can find it by typing *ipconfig* in your console</br>
 **Port:** Make sure this number matches with the *torrent_port* you defined in Aniloaders `config.py`</br>
-**Authentication:** Define a username and password</br>
+**Authentication:** Define a username and password</br></br>
+
+* **How to disable Login:**</br>
+      - Turn *Bypass authentication for clients in whitelisted IP subnets* on</br>
+      - Click on *IP subnet whitelist...*</br>
+      - Enter your IP address and click on *Add subnet*, then click on *OK*</br>
+      - Finally click on *Apply*</br>
+
 
 ### Installation
 

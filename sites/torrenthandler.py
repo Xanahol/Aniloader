@@ -29,34 +29,44 @@ def open_qbittorrent():
 
 
 def log_in():
-    WebDriverWait(torrent_driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//*[@id='username']")))
-    WebDriverWait(torrent_driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//*[@id='password']")))
-
-    element_username = torrent_driver.find_element_by_id("username")
-
-    element_password = torrent_driver.find_element_by_id("password")
-
-    # Asks for credentials
-    username = userhandler.ask_for_username()
-    password = userhandler.ask_for_password()
-
-    element_username.clear()
-    element_password.clear()
-    element_username.send_keys(username)
-    element_password.send_keys(password)
-
-    submit = WebDriverWait(torrent_driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//*[@id='login']")))
-    ActionChains(torrent_driver).click(submit).perform()
-
     try:
-        WebDriverWait(torrent_driver, 2).until(
-            EC.presence_of_element_located((By.ID, "downloadButton")))
+        WebDriverWait(torrent_driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//*[@id='username']")))
+        WebDriverWait(torrent_driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//*[@id='password']")))
+
+        element_username = torrent_driver.find_element_by_id("username")
+
+        element_password = torrent_driver.find_element_by_id("password")
+
+        # Asks for credentials
+        username = userhandler.ask_for_username()
+        password = userhandler.ask_for_password()
+
+        element_username.clear()
+        element_password.clear()
+        element_username.send_keys(username)
+        element_password.send_keys(password)
+
+        submit = WebDriverWait(torrent_driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//*[@id='login']")))
+        ActionChains(torrent_driver).click(submit).perform()
+
+        try:
+            WebDriverWait(torrent_driver, 2).until(
+                EC.presence_of_element_located((By.ID, "downloadButton")))
+            logger.info('Login successful!')
+        except:
+            logger.error("Wrong username or password. Please try again")
+            log_in()
     except:
-        logger.error("Wrong username or password. Please try again.")
-        log_in()
+        try:
+            WebDriverWait(torrent_driver, 2).until(
+                EC.presence_of_element_located((By.ID, "downloadButton")))
+            logger.info("Bypass detected. No login necessary")
+        except:
+            logger.error("There was an error trying to load the Torrent-Page")
+            log_in()
 
 
 def open_add_link_interface():
