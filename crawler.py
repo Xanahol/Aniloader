@@ -25,6 +25,24 @@ def simple_download():
     subsplease.sp_driver.quit()
 
 
+def download_from_schedule():
+    import sites.torrenthandler as torrenthandler
+    import sites.subsplease as subsplease
+
+    subsplease.open_schedule_page()
+
+    torrenthandler.open_qbittorrent()
+    torrenthandler.log_in()
+
+    anime_list = subsplease.get_every_anime_from_schedule()
+    subsplease.open_all_anime_page()
+    for anime in anime_list:
+        downloadAnime(anime, subsplease, torrenthandler)
+
+    torrenthandler.torrent_driver.quit()
+    subsplease.sp_driver.quit()
+
+
 def update_seasonal():
 
     import sites.torrenthandler as torrenthandler
@@ -84,7 +102,7 @@ def downloadAnime(anime, subsplease, torrenthandler):
         anime.title, anime.season)
 
     logger.info("Downloading them to {}".format(download_path))
-    
+
     if episode_difference is not None and anime.batched is True:
         logger.info("Deleting out of date files")
         filehandler.remove_episodes(

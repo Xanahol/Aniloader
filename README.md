@@ -22,7 +22,8 @@ Update your Anime-Library with one command!
     <li>
       <a href="#usage">Usage</a>
       <ul>
-        <li><a href="#get-anime">Simple Download</a></li>
+        <li><a href="#simple-download">Simple Download</a></li>
+        <li><a href="#update-new-episodes">Update New Episodes</a></li>
         <li><a href="#update-seasonal">Update Seasonal</a></li>
         <li><a href="#standardize">Standardize</a></li>
       </ul>
@@ -168,12 +169,12 @@ Here is how you can run the different modes and what they do:
 
   At this point, you can monitor what is being put in your download-queue and you can delete whatever you don't need.</br></br>
 
-### Update Seasonal
+### Update New Episodes
  #### Update your library with the freshest Anime of the day!</br></br>
   To run, type:</br>
 
   ```console
-  python.exe .\main.py -m updateSeasonal  
+  python.exe .\main.py -m updateNewEpisodes  
   ```
   </br>
   Aniloader connects to SubsPlease and the qBittorrent Web-UI.</br>
@@ -234,6 +235,17 @@ Here is how you can run the different modes and what they do:
 
   At this point, you can monitor what is being put in your download-queue and you can delete whatever you don't need.</br></br>
 
+
+### Update Seasonal
+ #### Download all the Anime of the Season!</br></br>
+  To run, type:</br>
+
+  ```console
+  python.exe .\main.py -m getAllSeasonal  
+  ```
+  </br>
+  
+  From this point on it is pretty much exactly as *Update New Episodes*
 
  ### Standardize
  #### Standardize your library for Plex!</br></br>

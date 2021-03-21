@@ -13,15 +13,21 @@ sp_driver = webdriver.Chrome(ChromeDriverManager().install())
 
 
 def open_overview_page():
-    logger.info("Connecting to Subsplease")
+    logger.info("Connecting to Overview-Page")
     sp_driver.get('https://subsplease.org/')
-    time.sleep(9)
+    time.sleep(2)
+
+
+def open_schedule_page():
+    logger.info("Connecting to Schedule-Page")
+    sp_driver.get('https://subsplease.org/schedule/')
+    time.sleep(2)
 
 
 def open_all_anime_page():
-    logger.info("Connecting to Subsplease")
+    logger.info("Connecting to Main-Page")
     sp_driver.get('https://subsplease.org/shows//')
-    time.sleep(9)
+    time.sleep(2)
 
 
 def open_seasonal_page():
@@ -106,6 +112,23 @@ def get_every_anime_with_new_ep():
         time.sleep(2)
 
     return anime_with_new_ep_list
+
+
+def get_every_anime_from_schedule():
+    anime_with_new_ep_list = []
+    WebDriverWait(sp_driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//tr[@class='all-schedule-item']/td/a")))
+    elements = sp_driver.find_elements_by_xpath(
+        "//tr[@class='all-schedule-item']/td/a")
+    logger.info('Found {} Anime on schedule'.format(len(elements)))
+    for element in elements:
+        anime = Anime(None, None, None)
+        anime.title = element.text
+        anime_with_new_ep_list.append(anime)
+        time.sleep(2)
+
+    return anime_with_new_ep_list
+
 
 def get_magnet_links():
     time.sleep(2)
