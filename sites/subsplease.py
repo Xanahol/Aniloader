@@ -33,14 +33,12 @@ def open_seasonal_page():
 def go_to_anime(name):
     element = sp_driver.find_element_by_xpath('//a[text()="{}"]'.format(name))
     link = element.get_attribute("href")
-    sp_driver.execute_script("window.open('');")
-    sp_driver.switch_to_window(sp_driver.window_handles[1])
     sp_driver.get(link)
 
 
 def leave_anime():
-    sp_driver.close()
-    sp_driver.switch_to_window(sp_driver.window_handles[0])
+    sp_driver.get('https://subsplease.org/shows//')
+    time.sleep(2)
 
 
 def strip_ep_from_title(raw):
@@ -102,28 +100,12 @@ def get_every_anime_with_new_ep():
     elements = sp_driver.find_elements_by_xpath("//tr[@class='new']/td/a")
     logger.info('Found {} Anime with the tag "New!"'.format(len(elements)))
     for element in elements:
-        anime_raw = strip_ep_from_title(element.text)
         anime = Anime(None, None, None)
-        anime.latest_title_on_overview = element.text
-        anime.season = detect_season(anime_raw)
-        anime.title = detect_title(anime_raw)
-        logger.info("Collecting links for {} | Season {}".format(
-            anime.title, anime.season))
-        go_to_anime(element.text)
-        anime.batched = detect_batched()
-        if not anime.batched:
-            anime.episodes = get_magnet_links()
-            anime.amount_of_episodes = len(anime.episodes)
-        else:
-            anime.amount_of_episodes = extract_amount_of_episodes_from_batch()
-            anime.episodes = extract_episodes_from_batch()
+        anime.title = strip_ep_from_title(element.text)
         anime_with_new_ep_list.append(anime)
-        logger.info("Collected {} links".format(anime.amount_of_episodes))
-        leave_anime()
         time.sleep(2)
 
     return anime_with_new_ep_list
-
 
 def get_magnet_links():
     time.sleep(2)
