@@ -13,7 +13,7 @@ import config
 import time
 
 torrent_driver = webdriver.Chrome(ChromeDriverManager().install())
-#torrent_driver.set_window_position(-10000, 0)
+torrent_driver.set_window_position(-10000, 0)
 
 
 def open_qbittorrent():

@@ -9,7 +9,7 @@ import logger
 import re
 
 sp_driver = webdriver.Chrome(ChromeDriverManager().install())
-#sp_driver.set_window_position(-10000, 0)
+sp_driver.set_window_position(-10000, 0)
 
 
 def open_overview_page():
