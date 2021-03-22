@@ -115,7 +115,7 @@ def get_every_anime_with_new_ep():
 
 
 def get_every_anime_from_schedule():
-    anime_with_new_ep_list = []
+    anime_on_schedule_list = []
     WebDriverWait(sp_driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//tr[@class='all-schedule-item']/td/a")))
     elements = sp_driver.find_elements_by_xpath(
@@ -124,10 +124,10 @@ def get_every_anime_from_schedule():
     for element in elements:
         anime = Anime(None, None, None)
         anime.title = element.text
-        anime_with_new_ep_list.append(anime)
-        time.sleep(2)
-
-    return anime_with_new_ep_list
+        if re.search(" (Monthly)", anime.title):
+            anime.title = anime.title.replace(" (Monthly)", '')
+        anime_on_schedule_list.append(anime)
+    return anime_on_schedule_list
 
 
 def get_magnet_links():

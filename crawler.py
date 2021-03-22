@@ -70,7 +70,7 @@ def standardize_downloaded():
 
 
 def downloadAnime(anime, subsplease, torrenthandler):
-    if re.search("Movie", anime.title):
+    if re.search("Movie", anime.title) or re.search("OVA", anime.title):
         logger.info("This Anime is a Movie and has to be downloaded manually")
     else:
         subsplease.go_to_anime(anime.title)
@@ -89,6 +89,8 @@ def downloadAnime(anime, subsplease, torrenthandler):
             logger.info("Collected batch-link".format(
                 anime.title, anime.season))
         else:
+            logger.info("Collecting batch-link for {} | Season {}".format(
+                anime.title, anime.season))
             anime.episodes = subsplease.get_magnet_links()
             anime.amount_of_episodes = len(anime.episodes)
 
