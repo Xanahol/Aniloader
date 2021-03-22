@@ -2,6 +2,7 @@ import filehandler
 import userhandler
 import logger
 import config
+import re
 from classes import Anime
 
 
@@ -69,59 +70,62 @@ def standardize_downloaded():
 
 
 def downloadAnime(anime, subsplease, torrenthandler):
-    subsplease.go_to_anime(anime.title)
-
-    anime.title = subsplease.detect_title(anime.title)
-
-    anime.batched = subsplease.detect_batched()
-    anime.latest_title_on_overview = subsplease.extract_latest_title()
-    anime.season = subsplease.detect_season(anime.latest_title_on_overview)
-    if anime.batched is True:
-        logger.info("This anime is batched")
-        logger.info("Collecting batch-link for {} | Season {}".format(
-            anime.title, anime.season))
-        anime.amount_of_episodes = subsplease.extract_amount_of_episodes_from_batch()
-        anime.episodes = subsplease.extract_episodes_from_batch()
-        logger.info("Collected batch-link".format(
-            anime.title, anime.season))
+    if re.search("Movie", anime.title):
+        logger.info("This Anime is a Movie and has to be downloaded manually")
     else:
-        anime.episodes = subsplease.get_magnet_links()
-        anime.amount_of_episodes = len(anime.episodes)
+        subsplease.go_to_anime(anime.title)
 
-    logger.info('Starting Download-Process...')
-    logger.info("The anime {} has {} episodes so far".format(
-        anime.title, anime.amount_of_episodes))
+        anime.title = subsplease.detect_title(anime.title)
 
-    episode_difference = filehandler.check_if_anime_up_to_date(
-        anime.title, anime.season, anime.amount_of_episodes)
+        anime.batched = subsplease.detect_batched()
+        anime.latest_title_on_overview = subsplease.extract_latest_title()
+        anime.season = subsplease.detect_season(anime.latest_title_on_overview)
+        if anime.batched is True:
+            logger.info("This anime is batched")
+            logger.info("Collecting batch-link for {} | Season {}".format(
+                anime.title, anime.season))
+            anime.amount_of_episodes = subsplease.extract_amount_of_episodes_from_batch()
+            anime.episodes = subsplease.extract_episodes_from_batch()
+            logger.info("Collected batch-link".format(
+                anime.title, anime.season))
+        else:
+            anime.episodes = subsplease.get_magnet_links()
+            anime.amount_of_episodes = len(anime.episodes)
 
-    logger.info("{} of which are not on the server yet".format(
-                episode_difference))
+        logger.info('Starting Download-Process...')
+        logger.info("The anime {} has {} episodes so far".format(
+            anime.title, anime.amount_of_episodes))
 
-    download_path = filehandler.check_directory_for_anime(
-        anime.title, anime.season)
+        episode_difference = filehandler.check_if_anime_up_to_date(
+            anime.title, anime.season, anime.amount_of_episodes)
 
-    logger.info("Downloading them to {}".format(download_path))
+        logger.info("{} of which are not on the server yet".format(
+                    episode_difference))
 
-    if episode_difference is not None and anime.batched is True:
-        logger.info("Deleting out of date files")
-        filehandler.remove_episodes(
+        download_path = filehandler.check_directory_for_anime(
             anime.title, anime.season)
-        links_to_download = anime.episodes
-        torrenthandler.queue(links_to_download, download_path)
-        logger.info('Process finished for ' + anime.title)
-        logger.newline()
-        subsplease.leave_anime()
 
-    elif episode_difference is not None and anime.batched is False:
-        links_to_download = anime.episodes[:episode_difference]
-        torrenthandler.queue(links_to_download, download_path)
-        logger.info('Process finished for ' + anime.title)
-        logger.newline()
-        subsplease.leave_anime()
+        logger.info("Downloading them to {}".format(download_path))
 
-    else:
-        logger.info(anime.title + ' is already up to date')
-        logger.info('Process finished for ' + anime.title)
-        logger.newline()
-        subsplease.leave_anime()
+        if episode_difference is not None and anime.batched is True:
+            logger.info("Deleting out of date files")
+            filehandler.remove_episodes(
+                anime.title, anime.season)
+            links_to_download = anime.episodes
+            torrenthandler.queue(links_to_download, download_path)
+            logger.info('Process finished for ' + anime.title)
+            logger.newline()
+            subsplease.leave_anime()
+
+        elif episode_difference is not None and anime.batched is False:
+            links_to_download = anime.episodes[:episode_difference]
+            torrenthandler.queue(links_to_download, download_path)
+            logger.info('Process finished for ' + anime.title)
+            logger.newline()
+            subsplease.leave_anime()
+
+        else:
+            logger.info(anime.title + ' is already up to date')
+            logger.info('Process finished for ' + anime.title)
+            logger.newline()
+            subsplease.leave_anime()
