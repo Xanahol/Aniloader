@@ -1,4 +1,4 @@
-<img src="images/aniloader logo.JPG" alt="Logo" width="100%"></br></br>
+<img src="images/aniloader logo.png" alt="Logo" width="100%"></br></br>
 # Aniloader
 Update your Anime-Library with one command!
 

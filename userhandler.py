@@ -1,9 +1,10 @@
 from getpass import getpass
 import getopt
+from view import window
 import sys
 
 
-def ask_for_anime():
+def ask_for_anime(window):
     return input("Which anime would you like to download?\n")
 
 

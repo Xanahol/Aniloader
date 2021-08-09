@@ -28,7 +28,7 @@ def open_qbittorrent():
         torrent_driver.get("http://"+config.ip_4+":"+config.torrent_port+"/")
 
 
-def log_in():
+def log_in(username='',password=''):
     try:
         WebDriverWait(torrent_driver, 10).until(
             EC.presence_of_element_located((By.XPATH, "//*[@id='username']")))
@@ -38,10 +38,6 @@ def log_in():
         element_username = torrent_driver.find_element_by_id("username")
 
         element_password = torrent_driver.find_element_by_id("password")
-
-        # Asks for credentials
-        username = userhandler.ask_for_username()
-        password = userhandler.ask_for_password()
 
         element_username.clear()
         element_password.clear()
@@ -56,17 +52,19 @@ def log_in():
             WebDriverWait(torrent_driver, 2).until(
                 EC.presence_of_element_located((By.ID, "downloadButton")))
             logger.info('Login successful!')
+            return "Success"
         except:
             logger.error("Wrong username or password. Please try again")
-            log_in()
+            return "Failed"
     except:
         try:
             WebDriverWait(torrent_driver, 2).until(
                 EC.presence_of_element_located((By.ID, "downloadButton")))
             logger.info("Bypass detected. No login necessary")
+            return "Bypass"
         except:
             logger.error("There was an error trying to load the Torrent-Page")
-            log_in()
+            return "Failed"
 
 
 def open_add_link_interface():

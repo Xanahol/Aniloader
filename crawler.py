@@ -1,24 +1,22 @@
 import filehandler
-import userhandler
 import logger
 import config
 import re
 from classes import Anime
 
+def prepare_download(torrenthandler):
+    torrenthandler.open_qbittorrent()
+    torrenthandler.log_in()
 
-def simple_download():
+def simple_download(torrenthandler, anime_name):
 
-    import sites.torrenthandler as torrenthandler
     import sites.subsplease as subsplease
 
     subsplease.open_all_anime_page()
-    torrenthandler.open_qbittorrent()
-
-    torrenthandler.log_in()
 
     anime = Anime(None, None, None)
 
-    anime.title = userhandler.ask_for_anime().replace('–', '-')
+    anime.title = anime_name.replace('–', '-')
 
     downloadAnime(anime, subsplease, torrenthandler)
 
@@ -26,14 +24,11 @@ def simple_download():
     subsplease.sp_driver.quit()
 
 
-def download_from_schedule():
-    import sites.torrenthandler as torrenthandler
+def download_from_schedule(torrenthandler):
     import sites.subsplease as subsplease
 
+    prepare_download(torrenthandler)
     subsplease.open_schedule_page()
-
-    torrenthandler.open_qbittorrent()
-    torrenthandler.log_in()
 
     anime_list = subsplease.get_every_anime_from_schedule()
     subsplease.open_all_anime_page()
@@ -44,15 +39,12 @@ def download_from_schedule():
     subsplease.sp_driver.quit()
 
 
-def update_seasonal():
+def update_seasonal(torrenthandler):
 
-    import sites.torrenthandler as torrenthandler
     import sites.subsplease as subsplease
 
+    prepare_download(torrenthandler)
     subsplease.open_overview_page()
-
-    torrenthandler.open_qbittorrent()
-    torrenthandler.log_in()
 
     anime_list = subsplease.get_every_anime_with_new_ep()
     subsplease.open_all_anime_page()
@@ -70,8 +62,8 @@ def standardize_downloaded():
 
 
 def downloadAnime(anime, subsplease, torrenthandler):
-    if re.search("Movie", anime.title) or re.search("OVA", anime.title):
-        logger.info("This Anime is a Movie and has to be downloaded manually")
+    if re.search("Movie", anime.title) or re.search("OVA", anime.title) or anime.title == 'Maiko-san Chi no Makanai-san (Monthly)':
+        logger.info("This Anime is not supported and has to be downloaded manually")
     else:
         subsplease.go_to_anime(anime.title)
 
