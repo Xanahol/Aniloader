@@ -1,6 +1,5 @@
 from getpass import getpass
 import getopt
-from view import window
 import sys
 
 
