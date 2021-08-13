@@ -3,12 +3,27 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
+from config import DEV
 from classes import Anime
 import time
+import socket
+import sys
+import os
 import logger
 import re
 
-sp_driver = webdriver.Chrome(ChromeDriverManager().install())
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.dirname(__file__)
+    return os.path.join(base_path, relative_path)
+
+if not DEV:
+    sp_driver = webdriver.Chrome(resource_path('./driver/chromedriver.exe'))
+else:
+    sp_driver = webdriver.Chrome('./driver/chromedriver.exe')
+
 sp_driver.set_window_position(-10000, 0)
 
 

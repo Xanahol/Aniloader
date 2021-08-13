@@ -2,17 +2,30 @@ from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from config import DEV
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from sites.subsplease import leave_anime
 import socket
+import sys
+import os
 import userhandler
 import logger
 import config
 import time
 
-torrent_driver = webdriver.Chrome(ChromeDriverManager().install())
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.dirname(__file__)
+    return os.path.join(base_path, relative_path)
+
+if not DEV:
+    torrent_driver = webdriver.Chrome(resource_path('./driver/chromedriver.exe'))
+else:
+    torrent_driver = webdriver.Chrome('./driver/chromedriver.exe')
 torrent_driver.set_window_position(-10000, 0)
 
 
