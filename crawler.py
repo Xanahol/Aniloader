@@ -81,7 +81,7 @@ def downloadAnime(anime, subsplease, torrenthandler):
             logger.info("Collected batch-link".format(
                 anime.title, anime.season))
         else:
-            logger.info("Collecting batch-link for {} | Season {}".format(
+            logger.info("Collecting links for {} | Season {}".format(
                 anime.title, anime.season))
             anime.episodes = subsplease.get_magnet_links()
             anime.amount_of_episodes = len(anime.episodes)
