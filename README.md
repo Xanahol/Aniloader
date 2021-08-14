@@ -19,8 +19,9 @@ Update your Anime-Library with one command!
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    <li><a href="#frontend">Frontend</a></li>
     <li>
-      <a href="#usage">Usage</a>
+      <a href="#commands">Commands</a>
       <ul>
         <li><a href="#simple-download">Simple Download</a></li>
         <li><a href="#update-new-episodes">Update New Episodes</a></li>
@@ -105,12 +106,21 @@ make sure that the *options->Web UI* match this Picture:</br></br>
    directories = ['C:\Example\Plex\Anime', 'D:\Example\Path\To\Plex\Anime']
    ```
 
+<!-- FRONTEND -->
+## Frontend
+One of the newer features is a simple Frontend.</br>
+Run it by starting the `Aniloader.exe` file:
 
+<img src="images/frontend expl.png" alt="Front" width="100%">
 
-<!-- USAGE EXAMPLES -->
-## Usage
+Make sure to only run one command at a time. Future adjustments may implement the handling of multiple commands.
 
-Here is how you can run the different modes and what they do:
+  </br>
+
+<!-- COMMANDS -->
+## Commands
+
+Here is how you can run the different modes from the command prompt. The processes are explained in more detail here:
 
 ### Simple Download
  #### Download a specific Anime / Update it in your library to the newest version!</br></br>
