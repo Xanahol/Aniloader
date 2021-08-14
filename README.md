@@ -1,4 +1,9 @@
 <img src="images/aniloader logo.png" alt="Logo" width="100%"></br></br>
+
+
+<img src="images/aniloader download logo.png" href="https://github.com/Xanahol/Aniloader/releases/download/v0.3-beta/Aniloader.exe" alt="Logo" width="30%">
+
+
 # Aniloader
 Update your Anime-Library with one command!
 
@@ -109,6 +114,7 @@ make sure that the *options->Web UI* match this Picture:</br></br>
 <!-- FRONTEND -->
 ## Frontend
 One of the newer features is a simple Frontend.</br>
+Use the "Download Aniloader" link at the beginning of this page.
 Run it by starting the `Aniloader.exe` file:
 
 <img src="images/frontend expl.png" alt="Front" width="100%">
