@@ -1,7 +1,7 @@
 <img src="images/aniloader logo.png" alt="Logo" width="100%"></br></br>
 
 
-<img src="images/aniloader download logo.png" href="https://github.com/Xanahol/Aniloader/releases/download/v0.3-beta/Aniloader.exe" alt="Logo" width="30%">
+[<img src="images/aniloader download logo.png" alt="Logo" width="30%">](https://github.com/Xanahol/Aniloader/releases/download/v0.3-beta/Aniloader.exe)
 
 
 # Aniloader
