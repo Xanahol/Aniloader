@@ -100,7 +100,7 @@ def create_adjust_port_window():
 def delete_dir(value):
     value = value.replace("\\", "\\\\")
 
-    with fileinput.FileInput("config.py", inplace=True, backup='.bak') as file:
+    with fileinput.FileInput("config.py", inplace=True) as file:
         for line in file:
             if re.search(",+ +'"+value+"',+ +", line):
                 print(re.sub(",* *'"+value+"',* *", ', ', line), end='')
@@ -109,13 +109,13 @@ def delete_dir(value):
 
 
 def add_dir(value):
-    with fileinput.FileInput("config.py", inplace=True, backup='.bak') as file:
+    with fileinput.FileInput("config.py", inplace=True) as file:
         for line in file:
             print(re.sub("']", "', '"+ value + "']", line), end='')
 
 
 def adjust_port(value):
-    with fileinput.FileInput("config.py", inplace=True, backup='.bak') as file:
+    with fileinput.FileInput("config.py", inplace=True) as file:
         for line in file:
             print(line.replace('torrent_port = "'+conf.torrent_port +
                   '"', 'torrent_port = "'+value+'"'), end='')
