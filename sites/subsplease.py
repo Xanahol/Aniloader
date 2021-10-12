@@ -12,19 +12,8 @@ import os
 import logger
 import re
 
-def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.dirname(__file__)
-    return os.path.join(base_path, relative_path)
-
-if not DEV:
-    sp_driver = webdriver.Chrome(resource_path('./driver/chromedriver.exe'))
-else:
-    sp_driver = webdriver.Chrome('./driver/chromedriver.exe')
-
-sp_driver.set_window_position(-10000, 0)
+sp_driver = webdriver.Chrome(ChromeDriverManager().install())
+#sp_driver.set_window_position(-10000, 0)
 
 
 def open_overview_page():

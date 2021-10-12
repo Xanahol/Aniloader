@@ -15,18 +15,8 @@ import logger
 import config
 import time
 
-def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.dirname(__file__)
-    return os.path.join(base_path, relative_path)
-
-if not DEV:
-    torrent_driver = webdriver.Chrome(resource_path('./driver/chromedriver.exe'))
-else:
-    torrent_driver = webdriver.Chrome('./driver/chromedriver.exe')
-torrent_driver.set_window_position(-10000, 0)
+torrent_driver = webdriver.Chrome(ChromeDriverManager().install())
+#torrent_driver.set_window_position(-10000, 0)
 
 
 def open_qbittorrent():
