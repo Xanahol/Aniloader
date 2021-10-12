@@ -3,17 +3,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
-from config import DEV
 from classes import Anime
 import time
-import socket
-import sys
-import os
 import logger
 import re
 
 sp_driver = webdriver.Chrome(ChromeDriverManager().install())
-#sp_driver.set_window_position(-10000, 0)
+sp_driver.set_window_position(-10000, 0)
 
 
 def open_overview_page():

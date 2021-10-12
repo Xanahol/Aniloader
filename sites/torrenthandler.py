@@ -2,30 +2,33 @@ from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from config import DEV
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from sites.subsplease import leave_anime
 import socket
-import sys
-import os
 import userhandler
 import logger
 import config
 import time
 
 torrent_driver = webdriver.Chrome(ChromeDriverManager().install())
-#torrent_driver.set_window_position(-10000, 0)
+torrent_driver.set_window_position(-10000, 0)
 
 
 def open_qbittorrent():
     logger.info("Connecting to the qBittorrent")
-    logger.info("Your IP is: " + config.ip_4)
-    torrent_driver.get("http://"+config.ip_4+":"+config.torrent_port+"/")
+    try:
+        hostname = socket.gethostname()
+        ip_address = socket.gethostbyname(hostname)
+        ip_4 = ip_address
+        logger.info("Your IP is: " + ip_4)
+        torrent_driver.get("http://"+ip_4+":"+config.torrent_port+"/")
+    except:
+        torrent_driver.get("http://"+config.ip_4+":"+config.torrent_port+"/")
 
 
-def log_in(username='',password=''):
+def log_in():
     try:
         WebDriverWait(torrent_driver, 10).until(
             EC.presence_of_element_located((By.XPATH, "//*[@id='username']")))
@@ -35,6 +38,10 @@ def log_in(username='',password=''):
         element_username = torrent_driver.find_element_by_id("username")
 
         element_password = torrent_driver.find_element_by_id("password")
+
+        # Asks for credentials
+        username = userhandler.ask_for_username()
+        password = userhandler.ask_for_password()
 
         element_username.clear()
         element_password.clear()
@@ -49,19 +56,17 @@ def log_in(username='',password=''):
             WebDriverWait(torrent_driver, 2).until(
                 EC.presence_of_element_located((By.ID, "downloadButton")))
             logger.info('Login successful!')
-            return "Success"
         except:
             logger.error("Wrong username or password. Please try again")
-            return "Failed"
+            log_in()
     except:
         try:
             WebDriverWait(torrent_driver, 2).until(
                 EC.presence_of_element_located((By.ID, "downloadButton")))
             logger.info("Bypass detected. No login necessary")
-            return "Bypass"
         except:
             logger.error("There was an error trying to load the Torrent-Page")
-            return "Failed"
+            log_in()
 
 
 def open_add_link_interface():

@@ -1,9 +1,4 @@
-<img src="images/aniloader logo.png" alt="Logo" width="100%"></br></br>
-
-
-[<img src="images/aniloader download logo.png" alt="Logo" width="30%">](https://github.com/Xanahol/Aniloader/releases/download/v0.3-beta/Aniloader.zip)
-
-
+<img src="images/aniloader logo.JPG" alt="Logo" width="100%"></br></br>
 # Aniloader
 Update your Anime-Library with one command!
 
@@ -24,9 +19,8 @@ Update your Anime-Library with one command!
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#frontend">Frontend</a></li>
     <li>
-      <a href="#commands">Commands</a>
+      <a href="#usage">Usage</a>
       <ul>
         <li><a href="#simple-download">Simple Download</a></li>
         <li><a href="#update-new-episodes">Update New Episodes</a></li>
@@ -111,22 +105,12 @@ make sure that the *options->Web UI* match this Picture:</br></br>
    directories = ['C:\Example\Plex\Anime', 'D:\Example\Path\To\Plex\Anime']
    ```
 
-<!-- FRONTEND -->
-## Frontend
-One of the newer features is a simple Frontend.</br>
-Use the "Download Aniloader" link at the beginning of this page.
-Run it by starting the `Aniloader.exe` file:
 
-<img src="images/frontend expl.png" alt="Front" width="100%">
 
-Make sure to only run one command at a time. Future adjustments may implement the handling of multiple commands.
+<!-- USAGE EXAMPLES -->
+## Usage
 
-  </br>
-
-<!-- COMMANDS -->
-## Commands
-
-Here is how you can run the different modes from the command prompt. The processes are explained in more detail here:
+Here is how you can run the different modes and what they do:
 
 ### Simple Download
  #### Download a specific Anime / Update it in your library to the newest version!</br></br>
