@@ -1,4 +1,4 @@
-from config import directories, black
+from config import directories, blacklist_do_not_standardize
 import os
 from time import sleep
 from classes import Anime, Episode
@@ -92,7 +92,7 @@ def check_if_anime_up_to_date(anime_name, season, episodes_available):
 def select_paths(directory):
     dir_list = []
     for (root, dirs, files) in os.walk(directory):
-        if re.search(r'Season \d', root) and not re.search(r'Season \d+.{4,}', root) and not any(ext in root for ext in black):
+        if re.search(r'Season \d', root) and not re.search(r'Season \d+.{4,}', root) and not any(ext in root for ext in blacklist_do_not_standardize):
             dir_list.append(root)
     logger.info('Collected every anime on '+directory)
     return dir_list

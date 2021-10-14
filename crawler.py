@@ -101,7 +101,7 @@ def downloadAnime(anime, site, torrenthandler):
         logger.info("This Anime is a Movie and has to be downloaded manually")
         return
 
-    if anime.title in config.blacklist:
+    if anime.title in config.blacklist_do_not_download:
         logger.info("Anime " + anime.title +
                     " is on Blacklist and will not be downloaded\n")
         return

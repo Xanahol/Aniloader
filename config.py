@@ -19,7 +19,5 @@ ip_4 = ip_address
 torrent_port = "8080"
 directories = ['C:\Example\Plex\Anime', 'D:\Example\Path\To\Plex\Anime']
 
-# Not to Download
-blacklist = []
-# Not to standardize
-black = []
+blacklist_do_not_download = []
+blacklist_do_not_standardize = []
