@@ -8,13 +8,6 @@ import re
 import shutil
 
 
-def check_episodes_status(anime, directory):
-    os.path.isdir("{}:\Plex\Anime\{}\Season 01".format(directory, anime))
-    print(len([name for name in os.listdir(
-        "{}:\Plex\Anime\{}\Season 01".format(directory, anime))]))
-    os.path.isfile('./path_of_file')
-
-
 def detect_season_on_path(path):
     season_raw = re.split(r'\\', path)[-1]
     season = re.findall('Season \d.*', season_raw)[0]
@@ -98,7 +91,7 @@ def check_if_anime_up_to_date(anime_name, season, episodes_available):
 
 def select_paths(directory):
     dir_list = []
-    for (root,dirs,files) in os.walk(directory):
+    for (root, dirs, files) in os.walk(directory):
         if re.search(r'Season \d', root) and not re.search(r'Season \d+.{4,}', root) and not any(ext in root for ext in black):
             dir_list.append(root)
     logger.info('Collected every anime on '+directory)
@@ -129,11 +122,13 @@ def rename(path_list):
                 move_files(dir, path)
         rename_anime(anime_title, season, path)
 
+
 def detect_filler(name):
     if re.search(r'\d*\.5', name):
         return True
     else:
         return False
+
 
 def detect_version(name):
     episode_and_version = re.findall(r'\d*\.\d+|\d*[v|V]\d+', name)
@@ -143,6 +138,7 @@ def detect_version(name):
         return int(version)
     else:
         return 0
+
 
 def clean_files_with_tripple_digits(fullpath, name):
     if re.search(r'S\d{3,}', name):
@@ -162,6 +158,7 @@ def clean_files_with_tripple_digits(fullpath, name):
     else:
         return
 
+
 def rename_anime(anime_title, season, anime_path):
     for file in pathlib.Path(anime_path).iterdir():
         if file.is_file():
@@ -179,16 +176,12 @@ def rename_anime(anime_title, season, anime_path):
                     name = anime_title+' - S'+episode.season+'E'+episode.number+'.mkv'
                     try:
                         file.rename(pathlib.Path(directory, name))
-                        logger.info("renamed file "+ episode.raw_name +" ------>> "+name)
+                        logger.info("renamed file " +
+                                    episode.raw_name + " ------>> "+name)
                     except FileExistsError:
-                        logger.error("File "+ episode.raw_name +" in directory "+ str(directory) + " not renamable, exists already")
+                        logger.error("File " + episode.raw_name + " in directory " +
+                                     str(directory) + " not renamable, exists already")
             else:
                 os.remove(file)
-                logger.info("Removed File "+ episode.raw_name +" because its a filler")
-                
-
-
-def detect_fix_name(name):
-    episode = re.findall(r'E\d+', name)[0]
-    e = re.findall('\d*', episode)[1]
-    return e
+                logger.info("Removed File " + episode.raw_name +
+                            " because its a filler")

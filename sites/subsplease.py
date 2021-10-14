@@ -127,7 +127,7 @@ def get_every_anime_with_new_ep():
     elements = sp_driver.find_elements_by_xpath("//tr[@class='new']/td/a")
     logger.info('Found {} Anime with the tag "New!"'.format(len(elements)))
     for element in elements:
-        anime = Anime(None, None, None)
+        anime = Anime()
         anime.title = strip_ep_from_title(element.text)
         anime_with_new_ep_list.append(anime)
         time.sleep(2)
@@ -143,7 +143,7 @@ def get_every_anime_from_schedule():
         "//tr[@class='all-schedule-item']/td/a")
     logger.info('Found {} Anime on schedule'.format(len(elements)))
     for element in elements:
-        anime = Anime(None, None, None)
+        anime = Anime()
         anime.title = element.text
         if re.search(" (Monthly)", anime.title):
             anime.title = anime.title.replace(" (Monthly)", '')
@@ -159,7 +159,7 @@ def get_every_anime():
         "//div[@class='all-shows-link']/a")
     logger.info('Found {} Anime in total'.format(len(elements)))
     for element in elements:
-        anime = Anime(None, None, None)
+        anime = Anime()
         anime.title = element.text
         if re.search(" (Monthly)", anime.title):
             anime.title = anime.title.replace(" (Monthly)", '')

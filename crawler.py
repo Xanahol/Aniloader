@@ -6,79 +6,89 @@ import re
 from classes import Anime
 
 
-def simple_download():
+def simple_download(site):
 
     import sites.torrenthandler as torrenthandler
-    import sites.subsplease as subsplease
+    module_path = "sites."+site
+    importlib = __import__("importlib")
+    site = importlib.import_module(module_path)
 
-    subsplease.open_all_anime_page()
+    site.open_all_anime_page()
     torrenthandler.open_qbittorrent()
 
     torrenthandler.log_in()
 
-    anime = Anime(None, None, None)
+    anime = Anime()
 
     anime.title = userhandler.ask_for_anime().replace('–', '-')
 
-    downloadAnime(anime, subsplease, torrenthandler)
+    downloadAnime(anime, site, torrenthandler)
 
     torrenthandler.torrent_driver.quit()
-    subsplease.sp_driver.quit()
+    site.sp_driver.quit()
 
 
-def download_from_schedule():
+def download_from_schedule(site):
     import sites.torrenthandler as torrenthandler
-    import sites.subsplease as subsplease
+    module_path = "sites."+site
+    importlib = __import__("importlib")
+    site = importlib.import_module(module_path)
 
-    subsplease.open_schedule_page()
+    site.open_schedule_page()
 
     torrenthandler.open_qbittorrent()
     torrenthandler.log_in()
 
-    anime_list = subsplease.get_every_anime_from_schedule()
-    subsplease.open_all_anime_page()
+    anime_list = site.get_every_anime_from_schedule()
+    site.open_all_anime_page()
     for anime in anime_list:
-        downloadAnime(anime, subsplease, torrenthandler)
+        downloadAnime(anime, site, torrenthandler)
 
     torrenthandler.torrent_driver.quit()
-    subsplease.sp_driver.quit()
+    site.sp_driver.quit()
 
 
-def update_seasonal():
+def update_seasonal(site):
 
     import sites.torrenthandler as torrenthandler
-    import sites.subsplease as subsplease
+    module_path = "sites."+site
+    importlib = __import__("importlib")
+    site = importlib.import_module(module_path)
 
-    subsplease.open_overview_page()
+    site.open_overview_page()
 
     torrenthandler.open_qbittorrent()
     torrenthandler.log_in()
 
-    anime_list = subsplease.get_every_anime_with_new_ep()
-    subsplease.open_all_anime_page()
+    anime_list = site.get_every_anime_with_new_ep()
+    site.open_all_anime_page()
     for anime in anime_list:
-        downloadAnime(anime, subsplease, torrenthandler)
+        downloadAnime(anime, site, torrenthandler)
 
     torrenthandler.torrent_driver.quit()
-    subsplease.sp_driver.quit()
+    site.sp_driver.quit()
 
-def get_all_anime():
+
+def get_all_anime(site):
 
     import sites.torrenthandler as torrenthandler
-    import sites.subsplease as subsplease
+    module_path = "sites."+site
+    importlib = __import__("importlib")
+    site = importlib.import_module(module_path)
 
-    subsplease.open_all_anime_page()
+    site.open_all_anime_page()
 
     torrenthandler.open_qbittorrent()
     torrenthandler.log_in()
 
-    anime_list = subsplease.get_every_anime()
-    subsplease.open_all_anime_page()
+    anime_list = site.get_every_anime()
+    site.open_all_anime_page()
     for anime in anime_list:
-        downloadAnime(anime, subsplease, torrenthandler)
+        downloadAnime(anime, site, torrenthandler)
 
     torrenthandler.torrent_driver.quit()
-    subsplease.sp_driver.quit()
+    site.sp_driver.quit()
+
 
 def standardize_downloaded():
     for directory in config.directories:
@@ -86,34 +96,35 @@ def standardize_downloaded():
         filehandler.rename(path_list)
 
 
-def downloadAnime(anime, subsplease, torrenthandler):
+def downloadAnime(anime, site, torrenthandler):
     if re.search("Movie", anime.title) or re.search("OVA", anime.title):
         logger.info("This Anime is a Movie and has to be downloaded manually")
         return
 
     if anime.title in config.blacklist:
-        logger.info("Anime " + anime.title + " is on Blacklist and will not be downloaded\n")
+        logger.info("Anime " + anime.title +
+                    " is on Blacklist and will not be downloaded\n")
         return
 
-    subsplease.go_to_anime(anime.title)
-    if subsplease.episode_check():
-        anime.title = subsplease.detect_title(anime.title)
+    site.go_to_anime(anime.title)
+    if site.episode_check():
+        anime.title = site.detect_title(anime.title)
 
-        anime.batched = subsplease.detect_batched()
-        anime.latest_title_on_overview = subsplease.extract_latest_title()
-        anime.season = subsplease.detect_season(anime.latest_title_on_overview)
+        anime.batched = site.detect_batched()
+        anime.latest_title_on_overview = site.extract_latest_title()
+        anime.season = site.detect_season(anime.latest_title_on_overview)
         if anime.batched is True:
             logger.info("This anime is batched")
             logger.info("Collecting batch-links for {} | Season {}".format(
                 anime.title, anime.season))
-            anime.amount_of_episodes = subsplease.extract_amount_of_episodes_from_batch()
-            anime.episodes = subsplease.extract_episodes_from_batch()
+            anime.amount_of_episodes = site.extract_amount_of_episodes_from_batch()
+            anime.episodes = site.extract_episodes_from_batch()
             logger.info("Collected batch-link".format(
                 anime.title, anime.season))
         else:
             logger.info("Collecting links for {} | Season {}".format(
                 anime.title, anime.season))
-            anime.episodes = subsplease.get_magnet_links()
+            anime.episodes = site.get_magnet_links()
             anime.amount_of_episodes = len(anime.episodes)
 
         logger.info('Starting Download-Process...')
@@ -139,17 +150,17 @@ def downloadAnime(anime, subsplease, torrenthandler):
             torrenthandler.queue(links_to_download, download_path)
             logger.info('Process finished for ' + anime.title)
             logger.newline()
-            subsplease.leave_anime()
+            site.leave_anime()
 
         elif episode_difference is not None and anime.batched is False:
             links_to_download = anime.episodes[:episode_difference]
             torrenthandler.queue(links_to_download, download_path)
             logger.info('Process finished for ' + anime.title)
             logger.newline()
-            subsplease.leave_anime()
+            site.leave_anime()
 
         else:
             logger.info(anime.title + ' is already up to date')
             logger.info('Process finished for ' + anime.title)
             logger.newline()
-            subsplease.leave_anime()
+            site.leave_anime()

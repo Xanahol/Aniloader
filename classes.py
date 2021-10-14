@@ -1,5 +1,5 @@
 class Anime:
-    def __init__(self, title, db_name, url):
+    def __init__(self):
         self.title = None
         self.db_name = None
         self.url = None
