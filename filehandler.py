@@ -1,5 +1,7 @@
-from config import directories
+from config import directories, black
 import os
+from time import sleep
+from classes import Anime, Episode
 import logger
 import pathlib
 import re
@@ -25,21 +27,10 @@ def detect_anime_on_path(path):
     return title
 
 
-def detect_episode_from_old_name(file_name):
-    print(file_name)
+def detect_episode(file_name):
     episode = re.findall(r'- \d+', file_name)[0]
     e = re.findall('\d.*', episode)[0]
     return e
-
-
-def check_if_files_exist(anime):
-    exist_in_J = os.path.isdir("J:\Plex\Anime\{}".format(anime))
-    exist_in_G = os.path.isdir("G:\Plex\Anime\{}".format(anime))
-
-    if exist_in_G == True or exist_in_J == True:
-        return True
-    else:
-        return False
 
 
 def check_directory_for_anime(anime_name, season):
@@ -106,49 +97,95 @@ def check_if_anime_up_to_date(anime_name, season, episodes_available):
 
 
 def select_paths(directory):
-    anime_list = os.walk(directory)
     dir_list = []
-    for anime in anime_list:
-        if re.search('Season ', anime[0]):
-            dir_list.append(anime[0])
+    for (root,dirs,files) in os.walk(directory):
+        if re.search(r'Season \d', root) and not re.search(r'Season \d+.{4,}', root) and not any(ext in root for ext in black):
+            dir_list.append(root)
     logger.info('Collected every anime on '+directory)
     return dir_list
+
+
+def folders_in(path_to_parent):
+    for fname in os.listdir(path_to_parent):
+        if os.path.isdir(os.path.join(path_to_parent, fname)):
+            yield os.path.join(path_to_parent, fname)
+
+
+def move_files(source, destination):
+    files_list = os.listdir(source)
+    for file in files_list:
+        file = str(source + "\\" + file)
+        shutil.move(file, destination)
+    os.rmdir(source)
 
 
 def rename(path_list):
     for path in path_list:
         season = detect_season_on_path(path)
-        anime = detect_anime_on_path(path)
-        logger.info('Renaming '+anime+' Season '+season)
-        rename_anime(anime, season, path)
-        logger.info('Renaming successful')
+        anime_title = detect_anime_on_path(path)
+        sub_dirs = list(folders_in(path))
+        if sub_dirs != []:
+            for dir in sub_dirs:
+                move_files(dir, path)
+        rename_anime(anime_title, season, path)
 
+def detect_filler(name):
+    if re.search(r'\d*\.5', name):
+        return True
+    else:
+        return False
 
-def rename_anime(anime, season, anime_path):
-    # Path to subelement == sub_element
-    for sub_element in pathlib.Path(anime_path).iterdir():
-        if sub_element.is_dir():
-            for filename in os.listdir(sub_element):
-                shutil.move(os.path.join(sub_element, filename),
-                            os.path.join(anime_path, filename))
-            os.rmdir(sub_element)
+def detect_version(name):
+    episode_and_version = re.findall(r'\d*\.\d+|\d*[v|V]\d+', name)
+    if episode_and_version != []:
+        episode_and_version = episode_and_version[0]
+        version = re.findall(r'\d+', episode_and_version)[-1]
+        return int(version)
+    else:
+        return 0
+
+def clean_files_with_tripple_digits(fullpath, name):
+    if re.search(r'S\d{3,}', name):
+        seasonr = re.findall(r'S\d{3,}', name)[0]
+        season = re.findall(r'\d+', seasonr)[0].lstrip('0')
+        season = f"{int(season):02d}"
+        anime_title = re.findall(r'.*(?= -)', name)[0]
+        directory = fullpath.parent
+        if re.search(r'E\d{3,}', name):
+            epr = re.findall(r'E\d{3,}', name)[0]
+            ep = re.findall(r'\d+', epr)[0].lstrip('0')
+            ep = f"{int(ep):02d}"
+        else:
+            ep = str(re.findall(r'\d+$', name)[0])
+        name = anime_title+' - S'+season+'E'+ep+'.mkv'
+        fullpath.rename(pathlib.Path(directory, name))
+    else:
+        return
+
+def rename_anime(anime_title, season, anime_path):
     for file in pathlib.Path(anime_path).iterdir():
         if file.is_file():
-            name = file.stem
-            if not re.search(r'.mkv', name):
-                directory = file.parent
-                name = name+'.mkv'
-                file.rename(pathlib.Path(directory, name))
-            if re.search('1080p', name):
-                episode = detect_episode_from_old_name(name)
-                directory = file.parent
-                name = anime+' - S0'+season+'E0'+episode+'.mkv'
-                file.rename(pathlib.Path(directory, name))
-            if re.search(r'- S\dE\d', name):
-                episode = detect_fix_name(name)
-                directory = file.parent
-                name = anime+' - S0'+season+'E0'+episode+'.mkv'
-                file.rename(pathlib.Path(directory, name))
+            episode = Episode()
+            episode.raw_name = file.stem
+            episode.season = f"{int(season):02d}"
+            episode.version = detect_version(episode.raw_name)
+            episode.is_filler = detect_filler(episode.raw_name)
+            # Detatch in in case of files formatted like "Anime - S001E002"
+            # clean_files_with_tripple_digits(file, episode.raw_name)
+            if not episode.is_filler:
+                if re.search('1080p', episode.raw_name):
+                    episode.number = f"{int(detect_episode(episode.raw_name)):02d}"
+                    directory = file.parent
+                    name = anime_title+' - S'+episode.season+'E'+episode.number+'.mkv'
+                    try:
+                        file.rename(pathlib.Path(directory, name))
+                        logger.info("renamed file "+ episode.raw_name +" ------>> "+name)
+                    except FileExistsError:
+                        logger.error("File "+ episode.raw_name +" in directory "+ str(directory) + " not renamable, exists already")
+            else:
+                os.remove(file)
+                logger.info("Removed File "+ episode.raw_name +" because its a filler")
+                
 
 
 def detect_fix_name(name):

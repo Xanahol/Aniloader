@@ -1,3 +1,4 @@
+from re import sub
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
@@ -71,9 +72,9 @@ def log_in():
 
 def open_add_link_interface():
     time.sleep(2)
-    download = WebDriverWait(torrent_driver, 10).until(
+    download = WebDriverWait(torrent_driver, 300).until(
         EC.presence_of_element_located((By.XPATH, "//*[@id='downloadButton']")))
-    ActionChains(torrent_driver).click(download).perform()
+    download.click()
 
     torrent_driver.switch_to_frame(
         torrent_driver.find_element_by_id("downloadPage_iframe"))
@@ -114,4 +115,4 @@ def queue(links, path):
 def submit_links():
     submit = WebDriverWait(torrent_driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//*[@id='submitButton']")))
-    ActionChains(torrent_driver).click(submit).perform()
+    submit.click()

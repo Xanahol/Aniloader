@@ -70,12 +70,24 @@ def detect_batched():
         return False
 
 
+def episode_check():
+    try:
+        WebDriverWait(sp_driver, 10).until(EC.presence_of_element_located(
+            (By.XPATH, "//a[contains(@href,'1080p')]/span[text()='Magnet']/..")))
+        return True
+    except:
+        return False
+
+
 def extract_episodes_from_batch():
     WebDriverWait(sp_driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//a[contains(@href,'1080p')]/span[text()='Magnet']/..")))
-    magnet_element = sp_driver.find_element_by_xpath(
-        "//a[contains(@href,'1080p')]/span[text()='Magnet']/..")
-    return [magnet_element.get_attribute("href")]
+        EC.presence_of_element_located((By.XPATH, "//table[@id='show-batch-table']//a[contains(@href,'1080p')]/span[text()='Magnet']/..")))
+    magnet_elements = sp_driver.find_elements_by_xpath(
+        "//table[@id='show-batch-table']//a[contains(@href,'1080p')]/span[text()='Magnet']/..")
+    links = []
+    for magnet_element in magnet_elements:
+        links.append(magnet_element.get_attribute("href"))
+    return links
 
 
 def detect_title(raw):
@@ -91,11 +103,20 @@ def extract_latest_title():
 
 
 def extract_amount_of_episodes_from_batch():
-    WebDriverWait(sp_driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//label[contains(text(), 'Batch')]")))
-    batch_text = sp_driver.find_element_by_xpath(
-        "//label[contains(text(), 'Batch')]").text
-    amount_of_episodes = re.findall('\d*(?= \(Batch\))', batch_text)[0]
+    try:
+        WebDriverWait(sp_driver, 5).until(
+            EC.presence_of_element_located((By.XPATH, "//label[contains(text(), 'Batch')]")))
+        batch_text = sp_driver.find_element_by_xpath(
+            "//label[contains(text(), 'Batch')]").text
+        amount_of_episodes = re.findall('\d*(?= \(Batch\))', batch_text)[0]
+    except:
+        WebDriverWait(sp_driver, 5).until(
+            EC.presence_of_element_located((By.XPATH, "//table[@id='show-release-table']//label[@class='episode-title']")))
+        text = sp_driver.find_element_by_xpath(
+            "//table[@id='show-release-table']//label[@class='episode-title'][1]").text
+        ep = re.findall(r'— \d*', text)[0]
+        amount_of_episodes = re.findall(r'\d+', ep)[0]
+
     return amount_of_episodes
 
 
@@ -128,6 +149,22 @@ def get_every_anime_from_schedule():
             anime.title = anime.title.replace(" (Monthly)", '')
         anime_on_schedule_list.append(anime)
     return anime_on_schedule_list
+
+
+def get_every_anime():
+    all_anime_list = []
+    WebDriverWait(sp_driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//div[@class='all-shows-link']/a")))
+    elements = sp_driver.find_elements_by_xpath(
+        "//div[@class='all-shows-link']/a")
+    logger.info('Found {} Anime in total'.format(len(elements)))
+    for element in elements:
+        anime = Anime(None, None, None)
+        anime.title = element.text
+        if re.search(" (Monthly)", anime.title):
+            anime.title = anime.title.replace(" (Monthly)", '')
+        all_anime_list.append(anime)
+    return all_anime_list
 
 
 def get_magnet_links():

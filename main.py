@@ -11,10 +11,10 @@ for current_argument, current_value in arguments:
         helptable = [
             ["-h", "--help", "Shows all parameter options"],
             ["-m", "--mode", 'Select a mode to run the download'],
-            # TODO
             ["", "getAnime", 'Download a specific anime'],
             ["", "updateNewEpisodes", 'Update Anime-shows that released new episodes in the last 24 hours'],
             ["", "getAllSeasonal", 'Update all Anime-shows from the current weekly schedule'],
+            ["", "getAllAnime", 'Update all Anime-shows'],
             ["", "standard", 'Standardize your anime-libraries for Plex to read'],
             # TODO
             # ["-s", "--site", "Select a site on which you want to download"]
@@ -28,6 +28,8 @@ for current_argument, current_value in arguments:
             crawler.update_seasonal()
         elif current_value == 'getAllSeasonal':
             crawler.download_from_schedule()
+        elif current_value == "getAllAnime":
+            crawler.get_all_anime()
         elif current_value == 'standard':
             crawler.standardize_downloaded()
         

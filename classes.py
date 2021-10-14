@@ -12,6 +12,10 @@ class Anime:
 
 
 class Episode:
-    def __init__(self, number, link):
+    def __init__(self):
+        self.raw_name =  None
+        self.season = None
         self.number = None
         self.link = None
+        self.version = 0
+        self.is_filler = False

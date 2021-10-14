@@ -62,6 +62,23 @@ def update_seasonal():
     torrenthandler.torrent_driver.quit()
     subsplease.sp_driver.quit()
 
+def get_all_anime():
+
+    import sites.torrenthandler as torrenthandler
+    import sites.subsplease as subsplease
+
+    subsplease.open_all_anime_page()
+
+    torrenthandler.open_qbittorrent()
+    torrenthandler.log_in()
+
+    anime_list = subsplease.get_every_anime()
+    subsplease.open_all_anime_page()
+    for anime in anime_list:
+        downloadAnime(anime, subsplease, torrenthandler)
+
+    torrenthandler.torrent_driver.quit()
+    subsplease.sp_driver.quit()
 
 def standardize_downloaded():
     for directory in config.directories:
@@ -72,9 +89,14 @@ def standardize_downloaded():
 def downloadAnime(anime, subsplease, torrenthandler):
     if re.search("Movie", anime.title) or re.search("OVA", anime.title):
         logger.info("This Anime is a Movie and has to be downloaded manually")
-    else:
-        subsplease.go_to_anime(anime.title)
+        return
 
+    if anime.title in config.blacklist:
+        logger.info("Anime " + anime.title + " is on Blacklist and will not be downloaded\n")
+        return
+
+    subsplease.go_to_anime(anime.title)
+    if subsplease.episode_check():
         anime.title = subsplease.detect_title(anime.title)
 
         anime.batched = subsplease.detect_batched()
@@ -82,14 +104,14 @@ def downloadAnime(anime, subsplease, torrenthandler):
         anime.season = subsplease.detect_season(anime.latest_title_on_overview)
         if anime.batched is True:
             logger.info("This anime is batched")
-            logger.info("Collecting batch-link for {} | Season {}".format(
+            logger.info("Collecting batch-links for {} | Season {}".format(
                 anime.title, anime.season))
             anime.amount_of_episodes = subsplease.extract_amount_of_episodes_from_batch()
             anime.episodes = subsplease.extract_episodes_from_batch()
             logger.info("Collected batch-link".format(
                 anime.title, anime.season))
         else:
-            logger.info("Collecting batch-link for {} | Season {}".format(
+            logger.info("Collecting links for {} | Season {}".format(
                 anime.title, anime.season))
             anime.episodes = subsplease.get_magnet_links()
             anime.amount_of_episodes = len(anime.episodes)
