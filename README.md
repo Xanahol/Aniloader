@@ -101,9 +101,10 @@ make sure that the *options->Web UI* match this Picture:</br></br>
 4. Enter your settings in `config.py`
    ```python
    #Example
-   ip_4 = "192.168.4.162" 
    torrent_port = "8080"
    directories = ['C:\Example\Plex\Anime', 'D:\Example\Path\To\Plex\Anime']
+   blacklist_do_not_download = ['Black Clover', 'Fire Force']
+   blacklist_do_not_standardize = []
    ```
 
 
