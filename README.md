@@ -25,6 +25,7 @@ Update your Anime-Library with one command!
         <li><a href="#simple-download">Simple Download</a></li>
         <li><a href="#update-new-episodes">Update New Episodes</a></li>
         <li><a href="#update-seasonal">Update Seasonal</a></li>
+        <li><a href="#update-all">Update All</a></li>
         <li><a href="#standardize">Standardize</a></li>
       </ul>
     </li>
@@ -51,7 +52,7 @@ Here's why:
 * You shouldn't have to organize your entire library manually just so Daddy-Plex is happy. It's a hassle. Let Aniloader take care of it for you.
 * You should just be able to enjoy the latest Anime right when it comes out. Let Aniloader do the delivery :mailbox_with_mail:
 
-Of course, this is only one of the possible functions. So you can expect me to be adding more features soon. You may also suggest changes by forking this repo and creating a pull request or opening an issue.
+Of course, these are only some of the possible functions. So you can expect me to be adding more features soon. You may also suggest changes by forking this repo and creating a pull request or opening an issue.
 
 ### Built With
 
@@ -242,6 +243,17 @@ Here is how you can run the different modes and what they do:
 
   ```console
   python.exe .\main.py -m getAllSeasonal  
+  ```
+  </br>
+  
+  From this point on it is pretty much exactly as *Update New Episodes*
+
+### Update All
+ #### Download all Anime!</br></br>
+  To run, type:</br>
+
+  ```console
+  python.exe .\main.py -m getAllAnime  
   ```
   </br>
   
