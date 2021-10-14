@@ -19,14 +19,8 @@ torrent_driver.set_window_position(-10000, 0)
 
 def open_qbittorrent():
     logger.info("Connecting to the qBittorrent")
-    try:
-        hostname = socket.gethostname()
-        ip_address = socket.gethostbyname(hostname)
-        ip_4 = ip_address
-        logger.info("Your IP is: " + ip_4)
-        torrent_driver.get("http://"+ip_4+":"+config.torrent_port+"/")
-    except:
-        torrent_driver.get("http://"+config.ip_4+":"+config.torrent_port+"/")
+    logger.info("Your IP is: " + config.ip_4)
+    torrent_driver.get("http://"+config.ip_4+":"+config.torrent_port+"/")
 
 
 def log_in():
